@@ -1,0 +1,47 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+ :root{
+    --proteo-button_2_bg_color_1: rgba(68, 138, 133, 1);
+    --proteo-button_2_bg_color_2: rgba(106, 162, 158, 1);
+ }
+ .admin-post-sec .form-group label {
+    width: 18%;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: inherit;
+    line-height: 34px;
+}
+.admin-post-sec .form-group select, .admin-post-sec .form-group input{
+    width: 20%;
+    font-size: 18px;
+    margin-left:30px;
+    font-weight: normal;
+}
+.admin-post-sec .form-group {
+    display: flex;
+    align-items: center;
+}
+.admin-post-sec .form-group select{
+    text-transform: capitalize;
+}
+.admin-post-sec input#post_submit {
+    cursor: pointer;
+    background: #0094c4;
+    background: linear-gradient(180deg, var(--proteo-button_2_bg_color_1, #00a79c) 0%, var(--proteo-button_2_bg_color_2, #01af8d) 100%);
+    border: none;
+    /* font-size: 16px; */
+    color: #fff;
+    line-height: 30px;
+    border-radius: 4px;
+    padding: 0 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    margin-top: 10px;
+    width: 15%;
+    padding: 8px 0;
+    margin-left: 0;
+}
