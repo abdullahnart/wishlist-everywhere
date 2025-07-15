@@ -1,6 +1,7 @@
 jQuery(document).ready(
 
     function ($) {
+        
         $('.wishlist-tabs-nav a').click(function(e) {
             e.preventDefault();
     
@@ -39,7 +40,7 @@ jQuery(document).ready(
     }
 
 
-    $('.wishlist-table tr td.var_product a').each(function(){
+    $('.wishlist-table tr td.var_product .button').each(function(){
         $(this).text('Add to Cart');
     });
         // Add to Wishlist AJAX function
@@ -61,7 +62,7 @@ jQuery(document).ready(
                                     text: "Item added to wishlist!",
                                     icon: "success",
                                     confirmButtonText: 'OK',
-                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist">Go to Wishlist Page</a>'
+                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist_page">Go to Wishlist Page</a>'
                                 }
                             ).then(
                                 (result) =>
@@ -85,7 +86,7 @@ jQuery(document).ready(
                                     text: "Item already exists in wishlist!",
                                     icon: "warning",
                                     confirmButtonText: 'OK',
-                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist">Go to Wishlist Page</a>'
+                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist_page">Go to Wishlist Page</a>'
                                 }
                             );
 
@@ -113,7 +114,6 @@ jQuery(document).ready(
                     },
                     success: function (response) {
                         if (response.success) {
-                            // alert('Item removed from wishlist!');
                             Swal.fire(
                                 {
                                     text: "Item removed from wishlist!",
@@ -124,15 +124,11 @@ jQuery(document).ready(
                                 (result) =>
                                 {
                                     if (result.isConfirmed) {
-                                        window.location.href = window.location.href+'?sd';
+                                        jQuery('[data-post-id="' + postId + '"]').closest('tr').hide(1000);
                                     }
                                 }
                             );
-                            //   window.location.href = window.location.href+'?sd';
-                            //   jQuery('.wishlist-icon').removeClass("wishlist-added");
-                            // You can perform additional actions here after successful removal from the wishlist
                         } else {
-                            // alert('Failed to remove item from wishlist!');
                             Swal.fire(
                                 {
                                     text: "Failed to remove item from wishlist!",
