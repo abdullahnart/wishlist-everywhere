@@ -137,7 +137,7 @@
     foreach ($posts as $post) {
         $nonce = wp_create_nonce('remove_wishlist_item_' . $post->ID);
 
-        echo '<tr>';
+        echo '<tr class="wishlist-item post-' . esc_attr($post->ID) . '">';
 
         // 🗑 Remove icon
         echo '<td style="text-align:center;">
@@ -219,7 +219,11 @@
 }
 
         
-            echo '</tbody></table></div>';
+            echo '<tr>
+            <td colspan = 2><a href="#" class="remove-all-wishlist" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 Remove All from wishlist </a></td>
+            <td colspan = 3>hello</td>
+            </tr>
+            </tbody></table></div>';
             $first = false;
         }
 

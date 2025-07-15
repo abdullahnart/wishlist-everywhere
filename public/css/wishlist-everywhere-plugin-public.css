@@ -213,7 +213,7 @@ a.view {
   width: max-content;
   font-size: 18px;
 }
-.wishlist-icon-remove {
+.wishlist-icon-remove, .remove-all-wishlist {
   color: #fff;
   padding: 6px 12px;
   border-radius: 4px;
@@ -225,10 +225,10 @@ a.view {
   background: linear-gradient(100deg, #D62121, #860303);
 }
 
-.wishlist-icon-remove:hover {
+.wishlist-icon-remove:hover, .remove-all-wishlist:hover {
   background: linear-gradient(-100deg, #D62121, #860303);
 }
-.wishlist-icon-remove:hover, .wishlist-icon-remove:active {
+.wishlist-icon-remove:hover, .wishlist-icon-remove:active, .wishlist-icon-remove:focus, .remove-all-wishlist:hover, .remove-all-wishlist:active, .remove-all-wishlist:focus {
   color: #fff;
 }
 

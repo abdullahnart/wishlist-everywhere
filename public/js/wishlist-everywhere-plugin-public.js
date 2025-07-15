@@ -2,6 +2,7 @@ jQuery(document).ready(
 
     function ($) {
         
+        
         $('.wishlist-tabs-nav a').click(function(e) {
             e.preventDefault();
     
@@ -31,8 +32,20 @@ jQuery(document).ready(
             }
         );
 
+        $('.remove-all-wishlist').on(
+            'click', function (e) {
+                e.preventDefault();
+                $('.wishlist-icon-remove').each(function() {
+                    var postId = $(this).data('post-id');
+                    removeFromWishlist(postId,true);
+                    jQuery(this).closest('.wishlist-wrapper').hide(1000); 
+                });
+                jQuery(this).html('<p class="wishlist-empty">No items in wishlist.</p>');
+            }
+        );
+
             if (typeof wishlistPostIds !== 'undefined') {
-        wishlistPostIds.forEach(function(postId) {
+            wishlistPostIds.forEach(function(postId) {
             $('ul.products .post-' + postId + ' i.fa-heart')
                 .removeClass('fa-regular')
                 .addClass('fa-solid');
@@ -101,7 +114,7 @@ jQuery(document).ready(
         }
 
         // Remove from Wishlist AJAX function
-        function removeFromWishlist(postId)
+        function removeFromWishlist(postId, silent = false)
         {
             $.ajax(
                 {
@@ -114,6 +127,7 @@ jQuery(document).ready(
                     },
                     success: function (response) {
                         if (response.success) {
+                            if (!silent) {
                             Swal.fire(
                                 {
                                     text: "Item removed from wishlist!",
@@ -124,10 +138,12 @@ jQuery(document).ready(
                                 (result) =>
                                 {
                                     if (result.isConfirmed) {
-                                        jQuery('[data-post-id="' + postId + '"]').closest('tr').hide(1000);
+                                        jQuery('[data-post-id="' + postId + '"]').closest('tr.wishlist-item').hide(1000);
                                     }
                                 }
                             );
+                        }   
+                        
                         } else {
                             Swal.fire(
                                 {
@@ -137,6 +153,7 @@ jQuery(document).ready(
                                 }
                             );
                         }
+                    
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
