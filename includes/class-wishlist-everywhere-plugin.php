@@ -776,7 +776,7 @@ function add_wishlist_icon_to_product_archive()
                     <th style="width:250px;">Action</th>
                     <th>Title</th>
                     <th>Price</th>
-                    <!-- <th>Add to Cart</th> -->
+                    <th>Add to Cart</th>
                     <th>View Page</th>';
         } else {
             echo '
@@ -790,44 +790,89 @@ function add_wishlist_icon_to_product_archive()
             </thead>
             <tbody>';
         
-            if (!empty($posts) && is_array($posts)) {
-                foreach ($posts as $post) {
-                    $nonce = wp_create_nonce('remove_wishlist_item_' . $post->ID);
-        
-                    echo '<tr>';
-                    echo '<td style="text-align:center;">
-                            <a href="#" class="wishlist-icon-remove" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 ' 
-                 . esc_html($remove_wishlist_title) . '</a>
-                            ';
-                    echo '<td>' . esc_html($post->post_title) . '</td>';
-                    
-                    if ($post->post_type === 'product' && function_exists('wc_get_product')) {
-                        $product = wc_get_product($post->ID);
-                        if ($product) {
-                            $price = $product->get_price_html();
-                            $add_to_cart_url = esc_url('?add-to-cart=' . $post->ID);
-                            $add_to_cart_text = $product->add_to_cart_text();
-                            echo '<td>
-                                    <p><strong>Price:</strong> ' . wp_kses_post($price) . '</p>
-                                  </td>';
-                                  echo '<!-- <td>
-                                  <a href="' . esc_attr($add_to_cart_url) . '" class="button add-to-cart-btn">' . esc_html($add_to_cart_text) . '</a>
-                                </td> -->'; 
-                                
-                                
-                                
-                        // echo '<td>' . wp_kses_post(wpautop(wp_trim_words($post->post_content, 25))) . '</td>';
-                        } else {
-                            echo '<td>—</td>';
-                        }
-                    } else {
+if (!empty($posts) && is_array($posts)) {
+    foreach ($posts as $post) {
+        $nonce = wp_create_nonce('remove_wishlist_item_' . $post->ID);
 
+        echo '<tr>';
+
+        // 🗑 Remove icon
+        echo '<td style="text-align:center;">
+                <a href="#" class="wishlist-icon-remove" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 ' . esc_html($remove_wishlist_title) . '</a>
+              </td>';
+
+        // 🏷 Title
+        echo '<td>' . esc_html($post->post_title) . '</td>';
+
+        // 📦 WooCommerce product handling
+        if ($post->post_type === 'product' && function_exists('wc_get_product')) {
+            $product = wc_get_product($post->ID);
+
+            if ($product) {
+                $price = $product->get_price_html();
+                echo '<td><p><strong>Price:</strong> ' . wp_kses_post($price) . '</p></td>';
+
+                // 🛒 Add to Cart Column
+                echo '<td class = "var_product">';
+
+                if ($product->is_type('variable')) {
+                    $default_attributes = $product->get_default_attributes();
+                    $available_variations = $product->get_available_variations();
+
+                    $variation_id = null;
+                    $query_args = ['add-to-cart' => $product->get_id()];
+
+                    foreach ($available_variations as $variation) {
+                        $variation_obj = wc_get_product($variation['variation_id']);
+                        if (!$variation_obj || !$variation_obj->variation_is_active()) continue;
+
+                        $match = true;
+                        foreach ($default_attributes as $key => $value) {
+                            if ($variation['attributes']['attribute_' . $key] !== $value) {
+                                $match = false;
+                                break;
+                            }
+                        }
+
+                        if ($match) {
+                            $variation_id = $variation['variation_id'];
+                            foreach ($default_attributes as $key => $value) {
+                                $query_args['attribute_' . $key] = $value;
+                            }
+                            $query_args['variation_id'] = $variation_id;
+                            break;
+                        }
                     }
-                    echo '<td><a class = "view" href="' . esc_url(get_permalink($post->ID)) . '">View</a></td>';
-                    
-                    echo '</tr>';
+
+                    if ($variation_id) {
+                        $add_to_cart_url = esc_url(add_query_arg($query_args, wc_get_cart_url()));
+                        $add_to_cart_text = $product->add_to_cart_text();
+                        echo '<a href="' . $add_to_cart_url . '" class="button add-to-cart-btn">' . esc_html($add_to_cart_text) . '</a>';
+                    } else {
+                        echo '<span class="button disabled">Select Options</span>';
+                    }
+
+                } elseif ($product->is_purchasable() && $product->is_in_stock()) {
+                    $add_to_cart_url = esc_url('?add-to-cart=' . $product->get_id());
+                    $add_to_cart_text = $product->add_to_cart_text();
+                    echo '<a href="' . $add_to_cart_url . '" class="button add-to-cart-btn">' . esc_html($add_to_cart_text) . '</a>';
+                } else {
+                    echo '<span class="button disabled">Out of Stock</span>';
                 }
+
+                echo '</td>';
+            } else {
+                echo '<td colspan="2">—</td>';
             }
+        }
+
+        // 🔗 View link
+        echo '<td><a class="view" href="' . esc_url(get_permalink($post->ID)) . '">View</a></td>';
+
+        echo '</tr>';
+    }
+}
+
         
             echo '</tbody></table></div>';
             $first = false;
@@ -837,15 +882,17 @@ function add_wishlist_icon_to_product_archive()
 
 
     }
+    
 
     function wishlist_page_items($content){
-        if (is_page('wishlist')){
+        if (is_page('wishlist_page')){
             $content.= do_shortcode('[wishlist_everywhere]');
         }
 
         return $content;
     }
 
+    
     function show_wishlist_tab_content(){
 
     echo do_shortcode('[wishlist_everywhere post_type = "product"]');
@@ -863,4 +910,5 @@ function wishlist_everywhere_js_data() {
         echo '<script>var wishlistPostIds = [];</script>';
     }
 }
+
 }

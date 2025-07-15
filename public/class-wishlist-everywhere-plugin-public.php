@@ -149,7 +149,9 @@ class Wishlist_Everywhere_Plugin_Public
         ));
         
 
-
+        wp_localize_script($this->plugin_name, 'MyPluginData', array(
+            'homeUrl' => home_url()
+        ));
     }
 
 }

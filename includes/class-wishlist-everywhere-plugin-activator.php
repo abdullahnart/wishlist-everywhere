@@ -43,7 +43,7 @@ class Wishlist_Everywhere_Plugin_Activator
     global $wpdb;
 
     $page_name = 'Wishlist';
-    $page_slug = 'wishlist';
+    $page_slug = 'wishlist_page';
     $page_status = 'publish';
 
     $existing_page = get_posts(array(

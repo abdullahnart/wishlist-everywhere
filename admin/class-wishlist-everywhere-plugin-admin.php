@@ -116,6 +116,7 @@ class Wishlist_Everywhere_Plugin_Admin
          * between the defined hooks and the functions defined in this
          * class.
          */
+        
         wp_register_script(
             $this->plugin_name,
             plugin_dir_url(__FILE__) . 'js/wishlist-everywhere-plugin-admin.js',
@@ -128,6 +129,7 @@ class Wishlist_Everywhere_Plugin_Admin
             wp_script_add_data($this->plugin_name, 'defer', true);
         }
         wp_enqueue_script($this->plugin_name);
+
     }
     /**
      * Register Menu Option for the admin area.

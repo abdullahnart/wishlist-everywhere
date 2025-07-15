@@ -38,6 +38,10 @@ jQuery(document).ready(
         });
     }
 
+
+    $('.wishlist-table tr td.var_product a').each(function(){
+        $(this).text('Add to Cart');
+    });
         // Add to Wishlist AJAX function
         function addToWishlist(postId)
         {
@@ -57,7 +61,7 @@ jQuery(document).ready(
                                     text: "Item added to wishlist!",
                                     icon: "success",
                                     confirmButtonText: 'OK',
-                                    footer: '<a href="' + window.location.origin + '/wishlist">Go to Wishlist Page</a>'
+                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist">Go to Wishlist Page</a>'
                                 }
                             ).then(
                                 (result) =>
@@ -81,7 +85,7 @@ jQuery(document).ready(
                                     text: "Item already exists in wishlist!",
                                     icon: "warning",
                                     confirmButtonText: 'OK',
-                                    footer: '<a href="' + window.location.origin + '/wishlist">Go to Wishlist Page</a>'
+                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist">Go to Wishlist Page</a>'
                                 }
                             );
 

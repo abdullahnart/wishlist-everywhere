@@ -42,7 +42,7 @@ class Wishlist_Everywhere_Plugin_Deactivator
     global $wpdb;
 
     // Define the table name
-    $page_slug = 'wishlist';
+    $page_slug = 'wishlist_page';
     $deleted_query = $wpdb->prepare(
         "DELETE FROM {$wpdb->posts} 
         WHERE post_name = %s
@@ -52,7 +52,7 @@ class Wishlist_Everywhere_Plugin_Deactivator
     // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     $wpdb->query($deleted_query); 
 
-    $page_slug = 'wishlist';
+    $page_slug = 'wishlist_page';
     $where = array(
         'post_name' => $page_slug,
         'post_type' => 'page'
