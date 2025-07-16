@@ -187,6 +187,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             delete_option('wishlist_for_single');
         }
 
+        if (isset($_POST['enable_css']) && $_POST['enable_css'] === 'custom_css') {
+            update_option('enable_custom_css', 'custom_css');
+        } else {
+            delete_option('enable_custom_css');
+        }
+
         if (!empty($_POST['wishlist_title'])) {
             update_option('wishlist_name', sanitize_text_field(wp_unslash($_POST['wishlist_title'])), true);
         }
@@ -338,7 +344,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
       <div class = "detail-wrapper">
   <ol>
     <li>
-      <strong>Enable Wishlist For</strong>: Choose the post type (such as Products, Posts, or Pages) where the wishlist feature should be available.
+      <strong>Enable Wishlist For</strong>: Choose the post type (such as Products, Posts, or Custom post type) where the wishlist feature should be available.
     </li>
     <li>
       <strong>Require Login</strong>: Enable this option to restrict wishlist usage to logged-in users only.
@@ -481,11 +487,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
       <div class = "row_wrapper">
       <div class = "group-wrapper">
         <h2>Styling Options</h2>
-        <!-- <div class="form-group">
-            <label>Use default Style</label>
-            <input id="wishlist_title" name="wishlist_title" type="text" value="' . esc_attr($wishlist_title) . '" placeholder="Add to Wishlist" />
-         </div> -->
-         <div class="form-group column">
+         <div class="form-group">
+            <label>Enable CSS</label>
+            <div id="container" class="gd">
+               <div class="toggle-button-container">
+                  <div class="toggle-button gd">
+                     <div class="btn btn-rect" id="button-10">
+                        <input type="checkbox" class="checkbox" id="enable_css" name="enable_css" value="custom_css"' . checked(get_option('enable_custom_css'), 'custom_css', false) . ' />
+                        <div class="knob">
+                           <span>NO</span>
+                        </div>
+                        <div class="btn-bg"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="form-group column for_css" style = "display:none;">
             <label>Custom CSS</label>
             <textarea name="wishlist_custom_css" id="wishlist_custom_css" rows="10" cols="50" class="large-text code">'. esc_textarea(get_option('wishlist_custom_css')).'</textarea>
          </div>

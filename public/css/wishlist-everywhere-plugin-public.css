@@ -233,7 +233,7 @@ a.view {
 }
 
 
-.wishlist-wrapper a.button.add-to-cart-btn {
+.wishlist-wrapper .button.add-to-cart-btn {
   text-decoration: none;
   color: #fff;
   padding: 16px 30px;
@@ -299,7 +299,15 @@ span.button.disabled {
     padding: 16px 30px;
     border-radius: 6px;
 }
-
+a.wishlist-icon.single {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+a.wishlist-icon.icon-only {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 @media screen and (max-width:767px) {
   .wishlist-tab-content {
     overflow: scroll;

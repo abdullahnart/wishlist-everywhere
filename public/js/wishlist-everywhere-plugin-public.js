@@ -2,6 +2,52 @@ jQuery(document).ready(
 
     function ($) {
         
+
+
+    $('#all-add-to-cart').on('click', function(e) {
+        e.preventDefault();
+
+        if (typeof wishlistPostIds === 'undefined' || wishlistPostIds.length === 0) {
+            alert('No wishlist products found.');
+            return;
+        }
+
+        $.ajax({
+            url: wc_add_to_cart_params.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'wishlist_bulk_add_to_cart',
+                product_ids: wishlistPostIds
+            },
+            success: function(response) {
+                if (response.success) {
+                    Swal.fire(
+                        {
+                            text: "All products added to cart!",
+                            icon: "success",
+                            confirmButtonText: 'OK',
+                            footer: '<a href="' + MyPluginData.homeUrl + '/cart">Go to Cart Page</a>'
+                        }
+                    ).then(
+                        (result) =>
+                        {
+                            if (result.isConfirmed) {
+                                    location.reload();                           
+                            }
+                        }
+                    );                    
+                     // Or redirect to cart
+                } else {
+                    alert('Some products could not be added.');
+                }
+            }
+        });
+    });
+
+
+
+
+
         
         $('.wishlist-tabs-nav a').click(function(e) {
             e.preventDefault();
@@ -46,12 +92,15 @@ jQuery(document).ready(
 
             if (typeof wishlistPostIds !== 'undefined') {
             wishlistPostIds.forEach(function(postId) {
-            $('ul.products .post-' + postId + ' i.fa-heart')
-                .removeClass('fa-regular')
-                .addClass('fa-solid');
-        });
-    }
-
+                $('ul.products .post-' + postId + ' i.fa-heart')
+                    .removeClass('fa-regular')
+                    .addClass('fa-solid');
+                });
+            }
+            if (typeof isInWishlist !== 'undefined' && isInWishlist) {
+                var postId = $('.wishlist-icon').data('post-id');
+                jQuery(`.product.post-${postId} i.fa-heart`).removeClass('fa-regular').addClass('fa-solid');                            
+            }
 
     $('.wishlist-table tr td.var_product .button').each(function(){
         $(this).text('Add to Cart');
@@ -81,10 +130,8 @@ jQuery(document).ready(
                                 (result) =>
                                 {
                                     if (result.isConfirmed) {
-                                        // window.location.href = window.location.href + `?post-${postId}`;    
-                jQuery(`ul.products .post-${postId} i.fa-heart`)
-                    .removeClass('fa-regular')
-                    .addClass('fa-solid');                            
+                                        jQuery(`ul.products .post-${postId} i.fa-heart`).removeClass('fa-regular').addClass('fa-solid');                            
+                                        jQuery(`.product.post-${postId} i.fa-heart`).removeClass('fa-regular').addClass('fa-solid');                            
                                     }
                                 }
                             );

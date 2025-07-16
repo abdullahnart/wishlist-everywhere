@@ -31,13 +31,31 @@
 
    jQuery(document).ready(function(){
 
+
+    function toggleEnableCss(){
+            var wishCss = $('#enable_css');
+            console.log();
+            if(wishCss.is(':checked')) {
+                $(wishCss).closest('.admin-post-sec').find('.for_css').css('display', 'block');
+            }else{
+                $(wishCss).closest('.admin-post-sec').find('.for_css').css('display', 'none');
+            }
+    }
+
+    toggleEnableCss();
+    $('#enable_css').on('change', function () {
+        toggleEnableCss();
+    });
+
     function toggleWishlistEnable() {
         var wishName = $('#filter_post_type').val();
 
         if (wishName === 'product') {
             $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.wishev_position').css('display', 'flex');
+
         } else {
             $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.wishev_position').css('display', 'none');
+            $('#filter_post_type').closest('.admin-post-sec').find('.for_css').css('display', 'none');
         }
     }
 
@@ -51,13 +69,13 @@ var $wishpost = $('.row_wrapper.wishev_position'),
     $archiveTarget = $wishpost.find('.for_archive'),
     $singleTarget = $wishpost.find('.for_single');
 
+
 function toggleWishlistPosition() {
     $archiveTarget.toggle($archiveCheckbox.prop('checked'));
     $singleTarget.toggle($singleCheckbox.prop('checked'));
 }
 
 toggleWishlistPosition();
-
 $archiveCheckbox.on('change', toggleWishlistPosition);
 $singleCheckbox.on('change', toggleWishlistPosition);
 

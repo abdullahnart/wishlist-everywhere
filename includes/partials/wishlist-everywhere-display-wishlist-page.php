@@ -150,15 +150,16 @@
         // 📦 WooCommerce product handling
         if ($post->post_type === 'product' && function_exists('wc_get_product')) {
             $product = wc_get_product($post->ID);
+            $out_of_stock_class = !$product->is_in_stock() ? 'out-of-stock' : '';
 
             if ($product) {
                 $price = $product->get_price_html();
                 echo '<td><p><strong>Price:</strong> ' . wp_kses_post($price) . '</p></td>';
 
                 // 🛒 Add to Cart Column
-                echo '<td class = "var_product">';
+                echo '<td class="var_product' . esc_attr($out_of_stock_class) . '">';
 
-                if ($product->is_type('variable')) {
+                if ($product->is_type('variable') && $product->is_in_stock()) {
                     $default_attributes = $product->get_default_attributes();
                     $available_variations = $product->get_available_variations();
 
@@ -221,7 +222,7 @@
         
             echo '<tr>
             <td colspan = 2><a href="#" class="remove-all-wishlist" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 Remove All from wishlist </a></td>
-            <td colspan = 3>hello</td>
+            <td colspan = 3><button id="all-add-to-cart" class="button add-to-cart-btn">Add All to Cart</button></td>
             </tr>
             </tbody></table></div>';
             $first = false;
@@ -231,3 +232,38 @@
 
 
     }    
+
+
+
+
+add_action('wp_ajax_wishlist_bulk_add_to_cart', 'wishlist_bulk_add_to_cart');
+add_action('wp_ajax_nopriv_wishlist_bulk_add_to_cart', 'wishlist_bulk_add_to_cart');
+
+function wishlist_bulk_add_to_cart() {
+    if (!isset($_POST['product_ids']) || !is_array($_POST['product_ids'])) {
+        wp_send_json_error('Missing or invalid product IDs');
+    }
+
+    $product_ids = array_map('intval', $_POST['product_ids']);
+
+    foreach ($product_ids as $product_id) {
+        $product = wc_get_product($product_id);
+
+        if (!$product) {
+            continue;
+        }
+
+        if ($product->is_type('variable') && $product->is_in_stock()) {
+            $variations = $product->get_available_variations();
+            if (!empty($variations)) {
+                $variation = $variations[0]; // Add first available variation
+                WC()->cart->add_to_cart($product_id, 1, $variation['variation_id'], $variation['attributes']);
+            }
+        } else {
+            WC()->cart->add_to_cart($product_id);
+        }
+    }
+
+    wp_send_json_success('All products added to cart');
+}
+

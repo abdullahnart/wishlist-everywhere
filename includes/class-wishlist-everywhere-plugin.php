@@ -96,6 +96,7 @@ class Wishlist_Everywhere_Plugin
         add_filter('the_content',[$this,'wishlist_page_items']);
         add_action('wp_head',[$this,'add_wishlist_custom_css']);
         add_action('wp_footer',[$this,'wishlist_everywhere_js_data']);
+        add_action('wp_footer',[$this,'wishlist_everywhere_js_data_single']);
 
     }
 
@@ -308,8 +309,12 @@ public function custom_login_redirect($redirect_to, $user) {
 
 function add_wishlist_custom_css(){
     $custom_css = get_option('wishlist_custom_css');
-    if(!empty($custom_css)){
+    $enable_css = get_option('enable_custom_css');
+    if(!empty($custom_css) && $enable_css === 'custom_css'){
         echo '<style id="wishlist-everywhere-custom-css">' . wp_strip_all_tags($custom_css) . '</style>';
+    }else{
+        echo '<style id="wishlist-everywhere-custom-css">
+        </style>';
     }
 }
 
@@ -341,6 +346,26 @@ function wishlist_everywhere_js_data() {
         echo '<script>var wishlistPostIds = ' . json_encode($ids) . ';</script>';
     } else {
         echo '<script>var wishlistPostIds = [];</script>';
+    }
+}
+
+
+function wishlist_everywhere_js_data_single() {
+    if (is_user_logged_in() && is_singular('product')) {
+        global $wpdb;
+        $user_id = get_current_user_id();
+        $table = $wpdb->prefix . 'cstmwishlist';
+        $product_id = get_the_ID();
+
+        $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$table} WHERE user_id = %d AND post_id = %d",
+            $user_id,
+            $product_id
+        ));
+
+        echo '<script>var isInWishlist = ' . ($is_in_wishlist ? 'true' : 'false') . ';</script>';
+    } else {
+        echo '<script>var isInWishlist = false;</script>';
     }
 }
 
