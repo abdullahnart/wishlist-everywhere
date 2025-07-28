@@ -376,6 +376,7 @@ function add_files_to_wishlist(){
     require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-archive-product.php';
     require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-display-wishlist-page.php';
     require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-my-account-tab.php';
+    require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-sharing-wishlist.php';
 }
 
 }

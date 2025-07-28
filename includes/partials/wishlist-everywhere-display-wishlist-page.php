@@ -1,3 +1,5 @@
+
+
 <?php
 
 
@@ -5,7 +7,6 @@
 
     function display_wishlist_page($atts)
     {
-
     global $wpdb;
 
     $atts = shortcode_atts(

@@ -181,6 +181,43 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             update_option('wishlist_custom_css', wp_kses_post($_POST['wishlist_custom_css']));
         }
 
+
+         // Facebook
+         if (isset($_POST['share_facebook']) && $_POST['share_facebook'] === 'yes') {
+            update_option('enable_facebook', 'yes');
+         } else {
+            delete_option('enable_facebook');
+         }
+
+         // WhatsApp
+         if (isset($_POST['share_whatsapp']) && $_POST['share_whatsapp'] === 'yes') {
+            update_option('enable_whatsapp', 'yes');
+         } else {
+            delete_option('enable_whatsapp');
+         }
+
+         // Twitter
+         if (isset($_POST['share_twitter']) && $_POST['share_twitter'] === 'yes') {
+            update_option('enable_twitter', 'yes');
+         } else {
+            delete_option('enable_twitter');
+         }
+
+         // Pinterest
+         if (isset($_POST['share_pinterest']) && $_POST['share_pinterest'] === 'yes') {
+            update_option('enable_pinterest', 'yes');
+         } else {
+            delete_option('enable_pinterest');
+         }
+
+         // Copy to Clipboard
+         if (isset($_POST['copy_clipboard']) && $_POST['copy_clipboard'] === 'yes') {
+            update_option('enable_clipboard', 'yes');
+         } else {
+            delete_option('enable_clipboard');
+         }
+
+        
         if (isset($_POST['wishlist_single']) && $_POST['wishlist_single'] === 'single') {
             update_option('wishlist_for_single', 'single');
         } else {
@@ -520,6 +557,103 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
          </li>
          </ol>
       </div>
+      </div>
+      <div class="row_wrapper">
+         <div class = "group-wrapper">
+            <h2>Sharing Options</h2>      
+            <div class="form-group">
+               <label>Enable "Facebook" Sharing</label>
+               <div id="container" class="gd">
+                  <div class="toggle-button-container">
+                     <div class="toggle-button gd">
+                        <div class="btn btn-rect" id="button-10">
+                           <input type="checkbox" class="checkbox" id="share_facebook" name="share_facebook" value="yes"' . checked(get_option('enable_facebook'), 'yes', false) . ' />
+                           <div class="knob">
+                              <span>NO</span>
+                           </div>
+                           <div class="btn-bg"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <label>Enable WhatsApp Sharing</label>
+               <div id="container" class="gd">
+                  <div class="toggle-button-container">
+                     <div class="toggle-button gd">
+                        <div class="btn btn-rect" id="button-10">
+                           <input type="checkbox" class="checkbox" id="share_whatsapp" name="share_whatsapp" value="yes"' . checked(get_option('enable_whatsapp'), 'yes', false) . ' />
+                           <div class="knob">
+                              <span>NO</span>
+                           </div>
+                           <div class="btn-bg"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <label>Enable Twitter Sharing	</label>
+               <div id="container" class="gd">
+                  <div class="toggle-button-container">
+                     <div class="toggle-button gd">
+                        <div class="btn btn-rect" id="button-10">
+                           <input type="checkbox" class="checkbox" id="share_twitter" name="share_twitter" value="yes"' . checked(get_option('enable_twitter'), 'yes', false) . ' />
+                           <div class="knob">
+                              <span>NO</span>
+                           </div>
+                           <div class="btn-bg"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <label>Enable Pinterest Sharing	</label>
+               <div id="container" class="gd">
+                  <div class="toggle-button-container">
+                     <div class="toggle-button gd">
+                        <div class="btn btn-rect" id="button-10">
+                           <input type="checkbox" class="checkbox" id="share_pinterest" name="share_pinterest" value="yes"' . checked(get_option('enable_pinterest'), 'yes', false) . ' />
+                           <div class="knob">
+                              <span>NO</span>
+                           </div>
+                           <div class="btn-bg"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <label>Copy to clipboard</label>
+               <div id="container" class="gd">
+                  <div class="toggle-button-container">
+                     <div class="toggle-button gd">
+                        <div class="btn btn-rect" id="button-10">
+                           <input type="checkbox" class="checkbox" id="copy_clipboard" name="copy_clipboard" value="yes"' . checked(get_option('enable_clipboard'), 'yes', false) . ' />
+                           <div class="knob">
+                              <span>NO</span>
+                           </div>
+                           <div class="btn-bg"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>                                                
+         </div>
+      <div class="detail-wrapper">
+         <ol>
+            <li>
+               <strong>Theme Settings</strong><br>
+               Customize colors, fonts, and layout options to match your store’s style.
+            </li>
+            <li>
+               <strong>Advanced Options</strong><br>
+               Add custom CSS, or animations for more control over design and behavior.
+            </li>
+         </ol>
+      </div>         
       </div>
       <div class="form-group">
          <input type="submit" value="Save Option" id="post_submit" name="post_submit">
