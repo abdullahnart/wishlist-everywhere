@@ -91,9 +91,6 @@
 // wishev_render_button();
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
-
-
 // function wishev_render_button()
 // {
 

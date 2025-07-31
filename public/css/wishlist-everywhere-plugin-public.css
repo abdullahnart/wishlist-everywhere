@@ -308,6 +308,26 @@ a.wishlist-icon.icon-only {
     padding-left: 15px;
     padding-right: 15px;
 }
+.wishlist-share-buttons a, .wishlist-share-buttons button {
+    text-decoration: none !important;
+    color: #000 !important;
+    padding: 0;
+    border: none;
+    margin-left: 30px;
+    background: transparent !important;
+    outline: none !important;
+}
+.wishlist-share {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.wishlist-share-buttons a:hover, .wishlist-share-buttons button:hover {
+    opacity: 0.8;
+}
+.wishlist-share p {
+    margin: 0;
+}
 @media screen and (max-width:767px) {
   .wishlist-tab-content {
     overflow: scroll;

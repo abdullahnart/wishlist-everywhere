@@ -1,6 +1,64 @@
 
 
 <?php
+function wishlist_everywhere_get_sharable_url($my_user_id){
+    return home_url('/wishlist-share/?user_id=' . $my_user_id);
+}
+add_action('wp', 'check_user_id');
+function check_user_id() {
+    $my_user_id = get_current_user_id();
+    $share_url = wishlist_everywhere_get_sharable_url($my_user_id);
+    $enable_clipboard = get_option('enable_clipboard');
+    $enable_facebook = get_option('enable_facebook');
+    $enable_whatsapp = get_option('enable_whatsapp');
+    $enable_twitter = get_option('enable_twitter');
+    $enable_pinterest = get_option('enable_pinterest');
+
+    ob_start(); ?>
+    <div class="wishlist-share">
+        <p><?php echo esc_html__('Share Your Wishlist:', 'wishlist-everywhere'); ?></p>
+        <div class="wishlist-share-buttons">
+        <?php if ($enable_facebook === 'yes') : ?>
+            <a target = "_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($share_url); ?>">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+        <?php endif; ?>
+            <?php if ($enable_whatsapp === 'yes') : ?>
+            <a target = "_blank" href="https://api.whatsapp.com/send?text=Check+out+my+wishlist:+<?php echo urlencode($share_url); ?>" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        <?php endif; ?>
+            <?php if ($enable_twitter === 'yes') : ?>
+            <a href="https://twitter.com/intent/tweet?text=Check+out+my+wishlist&url=<?php echo urlencode($share_url); ?>" target="_blank">                
+                    <i class="fa-brands fa-x-twitter"></i>
+            </a>         
+        <?php endif; ?>
+            <?php if ($enable_pinterest === 'yes') : ?>
+            <a href="https://pinterest.com/pin/create/button/?url=<?php echo urlencode($share_url); ?>&description=Check+out+my+wishlist" target="_blank">
+                <i class="fa-brands fa-pinterest-p"></i>
+            </a>
+        <?php endif; ?>
+        <?php if ($enable_clipboard === 'yes') : ?>
+            <button onclick="copyWishlistLink('<?php echo esc_url($share_url); ?>')">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+            <script>
+                function copyWishlistLink(link) {
+                    navigator.clipboard.writeText(link).then(function () {
+                        alert('<?php echo esc_html__('Link copied to clipboard!', 'wishlist-everywhere'); ?>');
+                    }).catch(function (err) {
+                        console.error('Clipboard copy failed:', err);
+                    });
+                }
+            </script>
+        <?php endif; ?>
+
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 
 
     add_shortcode('wishlist_everywhere', 'display_wishlist_page');
@@ -219,13 +277,20 @@
         echo '</tr>';
     }
 }
-
-        
+    
+        if ($post_type === 'product') {
             echo '<tr>
             <td colspan = 2><a href="#" class="remove-all-wishlist" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 Remove All from wishlist </a></td>
             <td colspan = 3><button id="all-add-to-cart" class="button add-to-cart-btn">Add All to Cart</button></td>
             </tr>
-            </tbody></table></div>';
+            
+            <tr>
+            <td colspan = 5 style ="text-align:right;">'.  check_user_id() .'</td>
+            </tr>';
+        }
+            
+
+            echo '</tbody></table></div>';
             $first = false;
         }
 
