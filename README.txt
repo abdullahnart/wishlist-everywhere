@@ -3,7 +3,7 @@ Contributors: abdullahart
 Tags: wishlist, post types, custom post types, WooCommerce
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,10 @@ Add your own CSS for button styles, layout adjustments, or animations.
 ✅ **Optimized & Lightweight**  
 Built for speed with clean code and minimal database usage.
 
+✅ **Wishlist Sharing**  
+Users can now copy wishlist links to clipboard or share directly on Facebook, Twitter, and Pinterest.
+
+
 == 💡 Use Cases ==
 
 🛍️ **WooCommerce Stores** – Let shoppers save favorites for future purchases.  
@@ -68,7 +72,8 @@ Built for speed with clean code and minimal database usage.
 - User account tab for wishlists  
 - Gutenberg block  
 - Custom post type settings  
-- Guest and user account wishlist support  
+- Guest and user account wishlist support 
+- Wishlist sharing (clipboard + social platforms)  
 - Developer-friendly structure  
 - Styling customizer via CSS box
 
@@ -117,6 +122,10 @@ Yes, you can use the provided `[wishlist_everywhere]` shortcode to display the w
 = Does it work with any WordPress theme? =  
 Yes, the plugin is designed to work with all standard WordPress themes. For best results, use a theme that follows WordPress coding standards. 
 
+= Can users share their wishlist with others? =  
+Yes! Users can copy their wishlist URL to the clipboard or share it directly on Facebook, Twitter, or Pinterest.
+
+
 == Screenshots ==
 
 1. Admin settings panel for configuring wishlist options.
@@ -151,4 +160,18 @@ Major Update Highlights:
 🔧 WooCommerce Enhancements – Improved compatibility and smoother integration
 🎨 Custom CSS Styling Option – Easily style wishlist buttons to match your theme
 🚀 Enhanced Frontend UI/UX – Smoother interactions with AJAX and modern design improvements
+
+
+= 1.0.7 =
+New Features:
+🛒 Add All to Cart – One-click button to add all wishlist items to the cart
+🗑️ Remove All Items – Bulk removal of all items from wishlist
+
+= 1.0.8 =
+Wishlist Sharing Introduced:
+📤 Wishlist Sharing – Copy wishlist link to clipboard or share via social media
+🔗 Copy to Clipboard – Easily copy and share your wishlist link
+📣 Social Sharing Support – Share your wishlist via Facebook, Twitter, and Pinterest
+
+
 
