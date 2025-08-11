@@ -62,7 +62,7 @@ class Wishlist_Everywhere_Plugin_Admin
         add_action('admin_menu', [$this, 'wishlistItems']);
         // add_action('init', [$this, 'wishlist_add_gutenberg_block']);
         $this->wishlist_add_gutenberg_block();
-        add_action('elementor/widgets/widgets_registered', [$this, 'wishlist_everywhere_register_widget']);
+        // add_action('elementor/widgets/widgets_registered', [$this, 'wishlist_everywhere_register_widget']);
     }
 
     /**

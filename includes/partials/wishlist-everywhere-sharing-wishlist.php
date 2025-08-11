@@ -11,7 +11,7 @@ function wishlist_everywhere_shared_template() {
         exit;
     }
 }
-add_shortcode('template_redirect', 'wishlist_everywhere_shared_template');
+add_shortcode('wishlist_share', 'wishlist_everywhere_shared_template');
 
 
 

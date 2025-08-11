@@ -6,6 +6,7 @@ function wishlist_everywhere_get_sharable_url($my_user_id){
 }
 add_action('wp', 'check_user_id');
 function check_user_id() {
+    
     $my_user_id = get_current_user_id();
     $share_url = wishlist_everywhere_get_sharable_url($my_user_id);
     $enable_clipboard = get_option('enable_clipboard');

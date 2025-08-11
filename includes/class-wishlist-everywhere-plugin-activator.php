@@ -42,29 +42,22 @@ class Wishlist_Everywhere_Plugin_Activator
 
     global $wpdb;
 
-    $page_name = 'Wishlist';
-    $page_slug = 'wishlist_page';
-    $page_status = 'publish';
+    $create_page = function($title, $slug) {
+        if (!get_page_by_path($slug, OBJECT, 'page')) {
+            wp_insert_post([
+                'post_title'   => $title,
+                'post_name'    => $slug,
+                'post_status'  => 'publish',
+                'post_type'    => 'page'
+            ]);
+        }
+    };
 
-    $existing_page = get_posts(array(
-        'post_type'   => 'page',
-        'title'       => $page_name,
-        'post_status' => 'publish',
-        'numberposts' => 1
-    ));
-    
-    $existing_page = !empty($existing_page) ? $existing_page[0] : null;
-    if (!$existing_page) {
-        $data = array(
-            'post_title'   => $page_name,
-            'post_name'    => $page_slug,
-            'post_status'  => $page_status,
-            'post_type'    => 'page'
-        );
-    
-        $wpdb->insert($wpdb->posts, $data);
+    // Create "Wishlist" page
+    $create_page('Wishlist', 'wishlist_page');
 
-    }
+    // Create "Wishlist Share" page
+    $create_page('Wishlist Share', 'wishlist-share');
 
     $table_name = $wpdb->prefix . 'cstmwishlist';
     $charset_collate = $wpdb->get_charset_collate();

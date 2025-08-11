@@ -19,7 +19,7 @@
  * Plugin Name:       Wishlist Everywhere
  * Plugin URI:        https://github.com/abdullahnart/wishlist-everywhere
  * Description:       A simple yet flexible plugin that enables wishlist functionality for all post types — including products, blog posts, or custom post types. Easily customize labels and manage user wishlists across your WordPress site.
- * Version:           1.0.8
+ * Version:           1.1.0
  * Author:            Abdullah Naseem
  * Author URI:        https://github.com/abdullahnart/wishlist-everywhere/
  * License:           GPL-2.0+

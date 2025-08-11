@@ -37,29 +37,23 @@ class Wishlist_Everywhere_Plugin_Deactivator
      * 
      * @return String
      */
-    public static function deactivate()
-    {
-    global $wpdb;
+    public static function deactivate() {
+        global $wpdb;
 
-    // Define the table name
-    $page_slug = 'wishlist_page';
-    $deleted_query = $wpdb->prepare(
-        "DELETE FROM {$wpdb->posts} 
-        WHERE post_name = %s
-        AND post_type = 'page'",
-        $page_slug
-    );
-    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-    $wpdb->query($deleted_query); 
+        // --- 1. Delete the "Wishlist" and "Wishlist Share" pages ---
+        $slugs = ['wishlist_page', 'wishlist-share'];
 
-    $page_slug = 'wishlist_page';
-    $where = array(
-        'post_name' => $page_slug,
-        'post_type' => 'page'
-    );
-    $wpdb->delete($wpdb->posts, $where);
+        foreach ($slugs as $slug) {
+            $page = get_page_by_path($slug, OBJECT, 'page');
+            if ($page) {
+                wp_delete_post($page->ID, true); // true = force delete (bypass trash)
+            }
+        }
 
-    $table_name = $wpdb->prefix . 'cstmwishlist';
+        // --- 2. Optionally remove custom table ---
+        $table_name = $wpdb->prefix . 'cstmwishlist';
+        // $wpdb->query("DROP TABLE IF EXISTS $table_name");
     }
+
 
 }

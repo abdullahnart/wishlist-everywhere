@@ -640,16 +640,24 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             </div>                                                
          </div>
       <div class="detail-wrapper">
-         <ol>
-            <li>
-               <strong>Theme Settings</strong><br>
-               Customize colors, fonts, and layout options to match your store’s style.
-            </li>
-            <li>
-               <strong>Advanced Options</strong><br>
-               Add custom CSS, or animations for more control over design and behavior.
-            </li>
-         </ol>
+<ol>
+<li>
+  <strong>Wishlist Sharing Options</strong><br>
+  A Wishlist Share page is created automatically, and you can also use the shortcode <code>[wishlist_share]</code> to display wishlist share items anywhere on your site.
+</li>
+
+
+
+  
+  <li><strong>Platform Integration</strong><br>
+  <ol>
+    <li>Facebook (OG tags)</li>
+    <li>WhatsApp (default message)</li>
+    <li>Twitter (hashtags)</li>
+    <li>Pinterest (image pinning)</li>
+    <li>Copy link functionality</li>
+  </ul></li>
+</ol>
       </div>         
       </div>
       <div class="form-group">

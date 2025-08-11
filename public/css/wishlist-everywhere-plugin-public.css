@@ -213,7 +213,7 @@ a.view {
   width: max-content;
   font-size: 18px;
 }
-.wishlist-icon-remove, .remove-all-wishlist {
+#tab-product .wishlist-icon-remove, div#tab-product .remove-all-wishlist {
   color: #fff;
   padding: 6px 12px;
   border-radius: 4px;
@@ -311,7 +311,7 @@ a.wishlist-icon.icon-only {
 .wishlist-share-buttons a, .wishlist-share-buttons button {
     text-decoration: none !important;
     color: #000 !important;
-    padding: 0;
+    padding: 0 !important;
     border: none;
     margin-left: 30px;
     background: transparent !important;

@@ -3,7 +3,7 @@ Contributors: abdullahart
 Tags: wishlist, post types, custom post types, WooCommerce
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 1.0.8
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,17 +140,10 @@ Yes! Users can copy their wishlist URL to the clipboard or share it directly on 
 = 1.0 =
 * Initial release
 
-== Upgrade Notice ==
-
-= 1.0 =
-First stable version.
-
 = 1.0.5 =
 * Updated PHP logic for message formatting
 * Added Archive and Single Option for product page
 * Added Heart icon in archive page
-
-== Upgrade Notice ==
 
 = 1.0.6 =
 Major Update Highlights:
@@ -173,5 +166,10 @@ Wishlist Sharing Introduced:
 🔗 Copy to Clipboard – Easily copy and share your wishlist link
 📣 Social Sharing Support – Share your wishlist via Facebook, Twitter, and Pinterest
 
+= 1.0.9 =
+🎨 Minor CSS fix
 
+= 1.1.0 =
+🔧 Fixed Elementor compatibility issue 
+✨ Add Wishlist Share Page
 

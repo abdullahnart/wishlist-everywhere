@@ -94,6 +94,7 @@ class Wishlist_Everywhere_Plugin
         // add_filter('woocommerce_add_to_cart_redirect', array($this, 'custom_redirect_after_add_to_cart'), 10, 1);
         add_action('admin_enqueue_scripts', [$this,'wishlist_menu_icon_color'], 10 , 1);
         add_filter('the_content',[$this,'wishlist_page_items']);
+        add_filter('the_content',[$this,'wishlist_share']);
         add_action('wp_head',[$this,'add_wishlist_custom_css']);
         add_action('wp_footer',[$this,'wishlist_everywhere_js_data']);
         add_action('wp_footer',[$this,'wishlist_everywhere_js_data_single']);
@@ -329,6 +330,14 @@ function add_wishlist_custom_css(){
     function wishlist_page_items($content){
         if (is_page('wishlist_page')){
             $content.= do_shortcode('[wishlist_everywhere]');
+        }
+
+        return $content;
+    }
+
+        function wishlist_share($content){
+        if (is_page('wishlist-share')){
+            $content.= do_shortcode('[wishlist_share]');
         }
 
         return $content;
