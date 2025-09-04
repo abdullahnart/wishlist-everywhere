@@ -4,7 +4,7 @@
  * 
  * @category   Class
  * @package    Wishlist_Everywhere_Plugin
- * @subpackage Wishlist_Everywhere_Plugin/admin
+ * @subpackage Wishlist_Everywhere_Plugin/admin/partials
  * @author     Abdullah Naseem  <mabdullah.art2023@gmail.com>
  * @license    GNU General Public License version 2 or later; see LICENSE
  * @link       https://example.com

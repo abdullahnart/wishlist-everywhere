@@ -142,6 +142,7 @@ class Wishlist_Everywhere_Plugin_Admin
     {
         add_menu_page('Wishlist', 'Wishlist Items', 'manage_options', 'wishlist_add', [$this,'wishlishFunc'], 'dashicons-heart', 25);
         add_submenu_page('wishlist_add', 'Wishlist Settings', 'Wishlist Settings', 'manage_options', 'wishev_shortcode', [$this,'wishlishShortode']);
+        add_submenu_page('wishlist_add', 'Wishlist Analytics', 'Wishlist Analytics', 'manage_options', 'wishev_analytics', [$this,'wishlistAnalytics']);
     }
     /**
      * Enqueue File of admin display.
@@ -166,6 +167,12 @@ class Wishlist_Everywhere_Plugin_Admin
     {
 
         return   include_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-plugin-admin-shortcode-display.php';
+    }
+
+    public function wishlistAnalytics()
+    {
+
+        return   include_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-plugin-admin-analytics-display.php';
     }
 
     public function wishlist_add_gutenberg_block(){

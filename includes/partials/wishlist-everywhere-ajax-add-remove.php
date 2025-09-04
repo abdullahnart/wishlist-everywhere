@@ -18,6 +18,7 @@ function add_to_wishlist_callback()
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'cstmwishlist';
+    $table_name_analytics = $wpdb->prefix . 'cstmwishlist_logs';
     $post_id = isset($_POST['post_id']) ? sanitize_text_field(wp_unslash($_POST['post_id'])) : '';
     
     // Check if the post ID already exists in the wishlist
@@ -35,6 +36,16 @@ function add_to_wishlist_callback()
     if (!$existing_item) {
         // If the post ID does not exist, insert it into the wishlist table
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $wpdb->insert(
+            $table_name_analytics,
+            array(
+                'post_id' => $post_id,
+                'user_id' => $current_user_id,
+                'created_at' => current_time('mysql') // optional timestamp
+            ),
+            array('%d', '%d', '%s')
+        );
+
         $wpdb->insert(
             $table_name,
             array(

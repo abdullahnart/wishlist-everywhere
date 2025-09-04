@@ -70,6 +70,22 @@ class Wishlist_Everywhere_Plugin_Activator
     include_once ABSPATH . 'wp-admin/includes/upgrade.php';
     dbDelta($sql);
 
+
+
+    $table_name_analytics = $wpdb->prefix . 'cstmwishlist_logs';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name_analytics (
+        id bigint(20) NOT NULL AUTO_INCREMENT,
+        user_id bigint(20) NOT NULL,
+        post_id bigint(20) NOT NULL,
+        created_at datetime DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta($sql);
+
     }
 
 }
