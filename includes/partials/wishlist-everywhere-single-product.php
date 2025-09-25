@@ -40,19 +40,19 @@
                         <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '">' . esc_html($wishlist_title) . '</a>
                     ';
                         $content = $wishlist_icon . $content;
-                        echo wp_kses_post($content);
+                        echo ($wishlist_icon) ;
                 }else if($wishlist_icon_option === 'icon_only'){
                     $wishlist_icon = '
                         <a href="#" class="wishlist-icon icon-only" data-post-id="' . esc_attr(get_the_ID()) . '"><i class="fa-regular fa-heart"></i></a>
                     ';
                         $content = $wishlist_icon . $content;
-                        echo wp_kses_post($content);
+                        echo ($wishlist_icon) ;
                 }else{
                     $wishlist_icon = '
                         <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '"> <i class="fa-regular fa-heart"></i>' . esc_html($wishlist_title) . '</a>
                     ';
                         $content = $wishlist_icon . $content;
-                        echo wp_kses_post($content);
+                       echo ($wishlist_icon) ;
                 }
 
             } else {

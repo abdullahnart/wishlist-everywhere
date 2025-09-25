@@ -13,6 +13,7 @@ Short Description: A plugin that adds a wishlist feature for your website, allow
 == Description ==
 
 Wishlist Everywhere adds a flexible and easy-to-use wishlist system to your WordPress website. Let users save products, posts, or any custom content types to a personal wishlist. Works for both logged-in and guest users. Perfect for WooCommerce stores, blogs, event sites, real estate platforms, and more.
+Admins can now track **Most Wishlisted Products** and **Top Users by Wishlist Activity** with built-in Analytics.  
 
 === 🌟 Key Features ===
 
@@ -52,6 +53,12 @@ Built for speed with clean code and minimal database usage.
 ✅ **Wishlist Sharing**  
 Users can now copy wishlist links to clipboard or share directly on Facebook, Twitter, and Pinterest.
 
+✅ **Analytics Dashboard** 
+Store admins can view wishlist items in the backend
+  - View most wishlisted products
+  - View top users with wishlist activity
+  - Track wishlist activity even after items are removed
+  - Visual charts powered by Chart.js
 
 == 💡 Use Cases ==
 
@@ -86,6 +93,7 @@ Users can now copy wishlist links to clipboard or share directly on Facebook, Tw
 3. Go to **Settings > Wishlist** in the admin dashboard to configure which post types to support.
 4. Customize the post types, button labels, and placement.
 5. Add `[wishlist_everywhere]` to any page where you want the wishlist to appear.
+6. Visit **Dashboard → Wihlist Everywhere → Wishlist Analytics** to see insights.
 
 
 == Shortcodes ==
@@ -124,6 +132,16 @@ Yes, the plugin is designed to work with all standard WordPress themes. For best
 
 = Can users share their wishlist with others? =  
 Yes! Users can copy their wishlist URL to the clipboard or share it directly on Facebook, Twitter, or Pinterest.
+
+= Can I track which products are most popular? =
+Yes. The new Analytics Dashboard shows your most wishlisted products.
+
+= Does it still track when a user removes an item from their wishlist? =
+Yes. Wishlist activity is logged permanently for analytics purposes.
+
+= Where can I find analytics? =
+Go to your WordPress Dashboard → Wihlist Everywhere → **Wishlist Analytics**.
+
 
 
 == Screenshots ==
@@ -173,3 +191,16 @@ Wishlist Sharing Introduced:
 🔧 Fixed Elementor compatibility issue 
 ✨ Add Wishlist Share Page
 
+
+= 1.1.1 =
+📊 Added Wishlist Analytics Dashboard for admins  
+⭐ Track most wishlisted products  
+👤 Track top users by wishlist activity  
+📈 Added Chart.js for visual reporting  
+🔒 Wishlist activity stored permanently (even after items are removed) 
+
+
+= 1.1.2 =
+🎨 Added admin Font Awesome icons
+🔤 Added custom plugin fonts
+🛠️ Fixed array issue on the product detail page
