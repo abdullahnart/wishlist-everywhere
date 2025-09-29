@@ -25,23 +25,32 @@ function wishlist_everywhere_render_user_wishlist($user_id) {
     $ids = $wpdb->get_col($wpdb->prepare("SELECT post_id FROM $table WHERE user_id = %d", $user_id));
 
     // Filter only product post types
-    $product_ids = array_filter($ids, function($post_id) {
-        return get_post_type($post_id) === 'product';
-    });
+    // $product_ids = array_filter($ids, function($post_id) {
+    //     return get_post_type($post_id) === 'product';
+    // });
 
-    if (!empty($product_ids)) {
+    if (!empty($ids)) {
         echo '<h2>Shared Wishlist</h2>';
         echo '<table class="wishlist-products">';
-        echo '<thead><tr><th>Title</th><th>Price</th><th>View Page</th></tr></thead>';
+        echo '<thead><tr><th>Title</th><th>Type</th><th>Price</th><th>View Page</th></tr></thead>';
         echo '<tbody>';
 
-        foreach ($product_ids as $post_id) {
+        foreach ($ids as $post_id) {
             $title = get_the_title($post_id);
-            $price = wc_get_product($post_id)->get_price_html();
+            $type  = get_post_type($post_id);
             $link = get_permalink($post_id);
+
+            $price = '-------------';
+            if ($type === 'product' && function_exists('wc_get_product')) {
+                $product = wc_get_product($post_id);
+                if ($product) {
+                    $price = $product->get_price_html();
+                }
+            }
 
             echo '<tr>';
             echo '<td>' . esc_html($title) . '</td>';
+            echo '<td>' . esc_html($type) . '</td>';
             echo '<td>' . $price . '</td>';
             echo '<td><a href="' . esc_url($link) . '" target="_blank">View</a></td>';
             echo '</tr>';
@@ -52,7 +61,6 @@ function wishlist_everywhere_render_user_wishlist($user_id) {
         echo '<p>No products in wishlist.</p>';
     }
 }
-
 
 
 

@@ -55,12 +55,25 @@
 
         } else {
             $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.wishev_position').css('display', 'none');
-            $('#filter_post_type').closest('.admin-post-sec').find('.for_css').css('display', 'none');
         }
     }
 
     // Run on page load
     toggleWishlistEnable();
+
+    function toggleLoginEnable() {
+        var wishName = $('#filter_post_type').val();
+
+        if (wishName === 'product') {
+            $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.login-tab').css('display', 'flex');
+
+        } else {
+            $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.login-tab').css('display', 'none');
+        }
+    }
+
+    // Run on page load
+    toggleLoginEnable();
 
 
 var $wishpost = $('.row_wrapper.wishev_position'),
@@ -85,6 +98,7 @@ $singleCheckbox.on('change', toggleWishlistPosition);
     // Run on select change
     $('#filter_post_type').on('change', function () {
         toggleWishlistEnable();
+        toggleLoginEnable();
     });
 
    });

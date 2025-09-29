@@ -12,83 +12,6 @@
  * 
  * @return String
  */
-// function wishev_render_button()
-// {
-//     $wishlist_post_types = get_post_types(
-//         array(
-//             'public' => true,
-//         ), 'names'
-//     );
-//     unset($wishlist_post_types['attachment']);
-//     unset($wishlist_post_types['page']);
-//     // $postType = isset($_POST['filter_post_type']) ? $_POST['filter_post_type'] : ''; // Get selected post type
-
-//     if (isset($_POST['post_submit'])) {
-//         update_option('wishev_filter_post_name', $_POST['filter_post_type'], true);
-//         if (!empty($_POST['wishlist_title'])) {
-//             update_option('wishlist_name', sanitize_text_field($_POST['wishlist_title']), true);
-//         }
-//         if (!empty($_POST['remove_wishlist_title'])) {
-//             update_option('wishev_removed_wishlist_label', sanitize_text_field($_POST['remove_wishlist_title']), true);
-//         }
-//     }
-
-//     $wishlist_post_name = get_option('wishev_filter_post_name');
-//     $wishlist_title = get_option('wishlist_name');
-//     $remove_wishlist_title = get_option('wishev_removed_wishlist_label');
-//     // $wishlist_post_placeholder = get_option('post_placeholder')
-//     // var_dump($wishlist_title);
-
-//     unset($wishlist_post_types[$wishlist_post_name]);
-//     if ($wishlist_post_types) { // If there are any custom public post types.
-//         $dropdown_val = '';
-//         $dropdown_val .= '<option value="' . esc_attr($wishlist_post_name) . '" selected>' . esc_html($wishlist_post_name) . '</option>';
-//         foreach ($wishlist_post_types as $wishlist_post_type) {
-//             $dropdown_val .= '<option value ="' . esc_attr($wishlist_post_type) . '">' . esc_html($wishlist_post_type) . '</option>';
-//         }
-//     }
-
-//     echo '<div class="admin-post-sec">
-//     <br>
-//             <h1>Wishlist Settings</h1>
-//             <br>
-//             <h4 style = "width:60%;">Enable a wishlist feature for all post types, allowing users to save and manage their favorite content—whether its products, blog posts, or custom items—creating a personalized and engaging browsing experience.</h4>
-//             <br>
-//             <form method="POST">
-//             <div class="form-group">
-//             <label>Enable wishlist for</label>
-//             <select id="filter_post_type" name="filter_post_type">
-//             ' . wp_kses(
-//         $dropdown_val, array(
-//             'option' => array(
-//                 'value' => true,
-//                 'selected' => true
-//             )
-//         )
-//     ) . '
-//             </select>
-            
-//             </div>
-//             <br>
-//             <div class="form-group">
-//             <label>Wishlist Button Name</label>
-//             <input id= "wishlist_title" name = "wishlist_title" type = "text" value="' . esc_attr($wishlist_title) . '" placeholder = "Add to Wishlist"/>
-//             </div>
-//             <br>
-//             <div class="form-group">
-//             <label>Remove Wishlist Text</label>
-//             <input id= "remove_wishlist_title" name = "remove_wishlist_title" type = "text" value="' . esc_attr($remove_wishlist_title) . '" placeholder = "Remove from Wishlist"/>
-//             </div>
-//             <br>
-//             <div class="form-group">
-//             <input type="submit" value="Save Option" id="post_submit" name="post_submit">
-//             </div>
-    
-//             </form>
-//             </div>';
-
-// }
-// wishev_render_button();
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // function wishev_render_button()
@@ -120,6 +43,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
     unset($wishlist_post_types['attachment']);
     unset($wishlist_post_types['page']);
+    foreach ( $wishlist_post_types as $key => $value ) {
+    if ( stripos( $value, 'elementor' ) !== false || stripos( $value, 'buttons' ) !== false || stripos( $value, 'templates' || stripos( $value, 'form' ) !== false || stripos( $value, 'menu' ) !== false ) !== false  ) {
+        unset( $wishlist_post_types[$key] );
+    }
+}
 
     // var_dump(get_option('wishlist_archive_position'));
 
@@ -326,7 +254,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             )) . '
             </select>
          </div>
-         <div class="form-group">
+         <div class="form-group login-tab">
             <label>Require Login</label>
             <div id="container" class="gd">
                <div class="toggle-button-container">
@@ -557,7 +485,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
       </div>
       <div class="row_wrapper">
          <div class = "group-wrapper">
-            <h2>Sharing Options</h2>      
+            <h2>Entire Wishlist Sharing Options</h2>      
             <div class="form-group">
                <label>Enable "Facebook" Sharing</label>
                <div id="container" class="gd">
@@ -642,9 +570,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
       <div class="detail-wrapper">
 <ol>
 <li>
-  <strong>Wishlist Sharing Options</strong><br>
-  A Wishlist Share page is created automatically, and you can also use the shortcode <code>[wishlist_share]</code> to display wishlist share items anywhere on your site.
-</li>
+  <strong>Entire Wishlist Sharing Options</strong><br>
+  A dedicated Wishlist Share Page is created automatically. You can also use the shortcode <code>[wishlist_share]</code> to display the full wishlist items anywhere on your site.
+  It’s a <b>page-level</b> share, not single-post share. This shortcode inserts the <b>entire wishlist</b>, not an individual item.
+
+
+  </li>
 
 
 

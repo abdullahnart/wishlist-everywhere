@@ -230,5 +230,64 @@
 #button-10 .checkbox:checked ~ .btn-bg {
   background-color: #6aa29e45;
 }
+.wishlisted-products img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
+    width: 40px;
+    height: auto;
+    padding: 7px;
+    background: #FCF9F4;
+    border: 1px solid #d2d2d233;
+    border-radius: 6px;
+    object-fit: cover;
+    aspect-ratio: 1;
+}
 
+.wishlisted-products table {
+    background: #FFFEFB;
+}
+.wishlisted-products td.first-col {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
 
+.wishlisted-products span {
+    width: 150px;
+}
+.wishlisted-products td,.wishlisted-products th {
+    padding: 10px 20px 10px 0px;
+    border-bottom: 1px solid #0000000d;
+    font-weight: 500;
+    color: #000;
+}
+.wishlisted-products table {
+    background: #FFFEFB;
+    padding: 10px;
+    border-radius: 7px;
+}
+.wishlisted-products .wishlist-link {
+    text-decoration: none !important;
+    color: #fff !important;
+    padding: 8px 16px;
+    background: linear-gradient(180deg, var(--proteo-button_2_bg_color_1, #00a79c) 0%, var(--proteo-button_2_bg_color_2, #01af8d) 100%);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+.wishlist-analytics-table h2 {
+    color: #737572;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+}
+
+.wishlist-analytics-table {
+    width: 35%;
+    margin-top: 40px;
+}
+
+.wishlist-analytics-table h1 {
+    color: #3F413E;
+    text-align: center;
+    line-height: 30px;
+}

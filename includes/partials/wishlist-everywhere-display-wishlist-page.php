@@ -1,5 +1,3 @@
-
-
 <?php
 function wishlist_everywhere_get_sharable_url($my_user_id){
     return home_url('/wishlist-share/?user_id=' . $my_user_id);
@@ -279,7 +277,7 @@ function check_user_id() {
     }
 }
     
-        if ($post_type === 'product') {
+
             echo '<tr>
             <td colspan = 2><a href="#" class="remove-all-wishlist" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 Remove All from wishlist </a></td>
             <td colspan = 3><button id="all-add-to-cart" class="button add-to-cart-btn">Add All to Cart</button></td>
@@ -288,14 +286,14 @@ function check_user_id() {
             <tr>
             <td colspan = 5 style ="text-align:right;">'.  check_user_id() .'</td>
             </tr>';
-        }
+        
             
 
             echo '</tbody></table></div>';
             $first = false;
         }
 
-        echo '</div>'; // .wishlist-wrapper
+        return '</div>'; // .wishlist-wrapper
 
 
     }    
