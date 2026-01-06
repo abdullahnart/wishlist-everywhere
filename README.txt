@@ -2,8 +2,8 @@
 Contributors: abdullahart
 Tags: wishlist, post types, custom post types, WooCommerce
 Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 1.1.3
+Tested up to: 6.9
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,7 +142,14 @@ Yes. Wishlist activity is logged permanently for analytics purposes.
 = Where can I find analytics? =
 Go to your WordPress Dashboard → Wihlist Everywhere → **Wishlist Analytics**.
 
+## Privacy Policy 
+Wishlist Everywhere uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
 
+Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure a great user experience for all our users. 
+
+Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
+
+Learn more about how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).
 
 == Screenshots ==
 
@@ -208,3 +215,15 @@ Wishlist Sharing Introduced:
 
 = 1.1.3 =
 🛠️ Fixed headers already sent issue which showing Activate the plugin
+
+
+= 1.1.4 =
+🔧 All issues fixed which Wordpress given me
+
+
+= 1.1.5 =
+🔧 Variable issue has been resolved
+
+
+= 1.1.6 =
+📊 Add Tracking Usage in this plugin

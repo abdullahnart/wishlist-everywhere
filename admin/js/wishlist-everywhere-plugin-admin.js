@@ -76,6 +76,36 @@
     toggleLoginEnable();
 
 
+    function toggleAccountEnable() {
+        var wishName = $('#filter_post_type').val();
+
+        if (wishName === 'product') {
+            $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.account-tab').css('display', 'flex');
+
+        } else {
+            $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.account-tab').css('display', 'none');
+        }
+    }
+
+    // Run on page load
+    toggleAccountEnable();
+
+
+    function toggleCustomPlacement() {
+        var wishName = $('#filter_post_type').val();
+
+        if (wishName === 'post') {
+            $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.placement-tab').css('display', 'flex');
+
+        } else {
+            $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.placement-tab').css('display', 'none');
+        }
+    }
+
+    // Run on page load
+    toggleCustomPlacement();
+
+
 var $wishpost = $('.row_wrapper.wishev_position'),
     $archiveCheckbox = $wishpost.find('#wishlist_archive'),
     $singleCheckbox = $wishpost.find('#wishlist_single'),
@@ -99,6 +129,8 @@ $singleCheckbox.on('change', toggleWishlistPosition);
     $('#filter_post_type').on('change', function () {
         toggleWishlistEnable();
         toggleLoginEnable();
+        toggleAccountEnable();
+        toggleCustomPlacement();
     });
 
    });

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     
     $wishlist_post_types = get_post_types(
         array('public' => true),
-        'names'
+        'objects'
     );
     $wishlist_archive_positions = [
         'before' => 'Before "Add to cart" Button',
@@ -43,11 +43,18 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
     unset($wishlist_post_types['attachment']);
     unset($wishlist_post_types['page']);
-    foreach ( $wishlist_post_types as $key => $value ) {
-    if ( stripos( $value, 'elementor' ) !== false || stripos( $value, 'buttons' ) !== false || stripos( $value, 'templates' || stripos( $value, 'form' ) !== false || stripos( $value, 'menu' ) !== false ) !== false  ) {
-        unset( $wishlist_post_types[$key] );
-    }
-}
+      foreach ($wishlist_post_types as $key => $obj) {
+         if (
+            stripos($key, 'elementor') !== false ||
+            stripos($key, 'buttons') !== false ||
+            stripos($key, 'templates') !== false ||
+            stripos($key, 'form') !== false ||
+            stripos($key, 'menu') !== false
+         ) {
+            unset($wishlist_post_types[$key]);
+         }
+      }
+
 
     // var_dump(get_option('wishlist_archive_position'));
 
@@ -101,11 +108,33 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         } else {
             delete_option('enable_wishlist_gutenberg');
         }
+        
+
+         if (isset($_POST['wishlist_post_placement']) && $_POST['wishlist_post_placement'] === 'enable_post_placement') {
+            update_option('enable_post_placement', 'enable_post_placement');
+        } else {
+            delete_option('enable_post_placement');
+        }
 
         if (isset($_POST['wishlist_custom_css'])){
             update_option('wishlist_custom_css', wp_kses_post($_POST['wishlist_custom_css']));
         }
 
+        if (isset($_POST['button_font_size'])){
+            update_option('button_font_size', wp_kses_post($_POST['button_font_size']));
+        }
+        if (isset($_POST['button_bg_color'])){
+            update_option('button_bg_color', wp_kses_post($_POST['button_bg_color']));
+        }
+         if (isset($_POST['button_bg_color_2'])){
+            update_option('button_bg_color_2', wp_kses_post($_POST['button_bg_color_2']));
+        }
+         if (isset($_POST['remove_bg_color'])){
+            update_option('remove_bg_color', wp_kses_post($_POST['remove_bg_color']));
+        }
+         if (isset($_POST['icon_color'])){
+            update_option('icon_color', wp_kses_post($_POST['icon_color']));
+        }
 
          // Facebook
          if (isset($_POST['share_facebook']) && $_POST['share_facebook'] === 'yes') {
@@ -186,11 +215,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         $dropdown_val .= '<option value="' . esc_attr($wishlist_post_name) . '" selected>' . esc_html($wishlist_post_name) . '</option>';
     }
 
-    if (!empty($wishlist_post_types)) {
-        foreach ($wishlist_post_types as $wishlist_post_type) {
-            $dropdown_val .= '<option value="' . esc_attr($wishlist_post_type) . '">' . esc_html($wishlist_post_type) . '</option>';
-        }
-    }
+   if (!empty($wishlist_post_types)) {
+      foreach ($wishlist_post_types as $post_type_key => $post_type_obj) {
+         $dropdown_val .= '<option value="' . esc_attr($post_type_key) . '">'
+               . esc_html($post_type_obj->labels->singular_name)
+               . '</option>';
+      }
+   }
     // if (!empty($wishlist_position)) {
     //     $archive_position_val .= '<option value="' . esc_attr($wishlist_position) . '" selected>' . esc_html($wishlist_position) . '</option>';
     // }    
@@ -270,7 +301,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                </div>
             </div>
          </div>
-         <div class="form-group">
+         <div class="form-group account-tab">
             <label>Enable Wishlist Tab in My Account</label>
             <div id="container" class="gd">
                <div class="toggle-button-container">
@@ -286,6 +317,22 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                </div>
             </div>
          </div> 
+         <div class="form-group placement-tab">
+            <label>Custom Wishlist Placement (shortcode)</label>
+            <div id="container" class="gd">
+               <div class="toggle-button-container">
+                  <div class="toggle-button gd">
+                     <div class="btn btn-rect" id="button-10">
+                        <input type="checkbox" class="checkbox" id="wishlist_post_placement" name="wishlist_post_placement" value="enable_post_placement"' . checked(get_option('enable_post_placement'), 'enable_post_placement', false) . ' />
+                        <div class="knob">
+                           <span>NO</span>
+                        </div>
+                        <div class="btn-bg"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
          <div class="form-group">
             <label>Enable Wishlist Block in Gutenberg</label>
             <div id="container" class="gd">
@@ -301,7 +348,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                   </div>
                </div>
             </div>
-         </div>                            
+         </div>                                      
       </div>
       <div class = "detail-wrapper">
   <ol>
@@ -317,6 +364,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     <li>
       <strong>Gutenberg Block Support</strong>: Allows you to add wishlist functionality directly within the Gutenberg editor using a dedicated block.
     </li>
+      <li><strong>Custom Wishlist Placement (shortcode):</strong> Enable this option to use this shortcode <code>[wishlist_post]</code> for placing the wishlist button anywhere manually within your site’s content or templates.</li>
+
   </ol>
 
 
@@ -446,7 +495,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
          </ol>
       </div>      
       </div>
-      <div class = "row_wrapper">
+      <div class = "row_wrapper" style = "display:none;">
       <div class = "group-wrapper">
         <h2>Styling Options</h2>
          <div class="form-group">
@@ -465,10 +514,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                </div>
             </div>
          </div>
-         <div class="form-group column for_css" style = "display:none;">
-            <label>Custom CSS</label>
-            <textarea name="wishlist_custom_css" id="wishlist_custom_css" rows="10" cols="50" class="large-text code">'. esc_textarea(get_option('wishlist_custom_css')).'</textarea>
-         </div>
       </div>
       <div class = "detail-wrapper">
          <ol>
@@ -483,6 +528,53 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
          </ol>
       </div>
       </div>
+      <div class = "row_wrapper">
+      <div class = "group-wrapper">
+         <h2>Styling Options</h2>
+         <div class = "custom-styling">
+            <div class = "form-group title-size">
+               <label>Button Font Size (px)</label>
+               <input type="number" id="button_font_size" name="button_font_size" value="' . esc_attr(get_option('button_font_size',18)) . '" min="10">
+            </div>
+            <div class = "form-group btn-bg-color">
+               <label>Add Button Background Color 1</label>
+               <input type="color" id="button_bg_color" name="button_bg_color" value="' . esc_attr(get_option('button_bg_color')) . '">
+            </div>
+            <div class = "form-group btn-bg-color">
+               <label>Add Button Background Color 2</label>
+               <input type="color" id="button_bg_color_2" name="button_bg_color_2" value="' . esc_attr(get_option('button_bg_color_2')) . '">
+            </div>';
+            // echo'
+            // <div class = "form-group rmv-bg-color">
+            //    <label>Remove Button Background Color</label>
+            //    <input type="color" id="remove_bg_color" name="remove_bg_color" value="' . esc_attr(get_option('remove_bg_color')) . '">
+            // </div>';
+            echo'
+            <div class = "form-group icon-color">
+               <label>Text Color</label>
+               <input type="color" id="icon_color" name="icon_color" value="' . esc_attr(get_option('icon_color')) . '">
+            </div>             
+         </div>
+      </div>
+      <div class = "detail-wrapper">
+         <ol>
+         <li><strong>Button Font Size</strong><br>
+               Adjust the size of the button text. Default is <em>18px</em>, but you can change it to match your store’s style.
+         </li>
+         <li><strong>Background Colors</strong><br>
+               Define the gradient for your button background:
+               <ul>
+               <li><strong>Background Color 1</strong>: The top color of the gradient.</li>
+               <li><strong>Background Color 2</strong>: The bottom color of the gradient.</li>
+               </ul>
+         </li>
+         <li><strong>Text Color</strong><br>
+               Choose the button text color to ensure good contrast and readability.
+         </li>
+         </ol>
+
+      </div>
+      </div>      
       <div class="row_wrapper">
          <div class = "group-wrapper">
             <h2>Entire Wishlist Sharing Options</h2>      

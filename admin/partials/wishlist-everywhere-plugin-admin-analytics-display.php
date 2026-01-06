@@ -56,77 +56,30 @@ function render_wishlist_analytics_page() {
     ?>
 
 <div class = "wishlist-analytics-table">
-    <h2>Wishlist Analytics</h2>
     <h1>Most Wishlisted Products</h1>
     <div class="wishlisted-products">
-    <table>
-
-        <th align = "left">Product Image</th>
-        <th>Number of Visits</th>
-        <th>View Product</th>
-        <?php foreach ($top_products as $product) : 
+                <?php foreach ($top_products as $product) : 
             $post_type = get_post_type($product->post_id);
             if ($post_type !== 'product') {
                 continue; // Skip non-product post types
             }
             
             ?>
+    <table>
+
+        <th align = "left">Product Image</th>
+        <th>Number of Visits</th>
+        <th>View Product</th>
             <tr>
-                <td class ="first-col"><?php echo get_the_post_thumbnail($product->post_id); ?><span><?php echo get_the_title($product->post_id); ?></span></td>
-                <td align = "center"><?php echo $product->total; ?></td>
-                <td align = "center"><a class="wishlist-link" target = "_blank" href = "<?php echo get_permalink ($product->post_id); ?>">View</a></td>
+                <td class ="first-col"><?php echo get_the_post_thumbnail($product->post_id); ?><span><?php echo esc_html( get_the_title($product->post_id) ); ?></span></td>
+                <td align = "center"><?php echo esc_html($product->total); ?></td>
+                <td align = "center"><a class="wishlist-link" target = "_blank" href = "<?php echo esc_url(get_permalink ($product->post_id)); ?>">View</a></td>
         </tr>
-        <?php endforeach; ?>
+        
 
     </table>
+    <?php endforeach; ?>
     </div>
-    <!-- <div class="wrap">
-        <canvas id="wishlistProductsChart" width="400" height="200"></canvas>
-
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-        // Products Bar Chart
-        new Chart(document.getElementById('wishlistProductsChart'), {
-            type: 'bar',
-            data: {
-                labels: <?php echo json_encode($product_labels); ?>,
-                datasets: [{
-                    label: 'Wishlist Count',
-                    data: <?php echo json_encode($product_data); ?>,
-                    backgroundColor: '#4e79a7'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false },
-                    title: { display: true, text: 'Top 5 Products' }
-                }
-            }
-        });
-
-        // Users Pie Chart
-        new Chart(document.getElementById('wishlistUsersChart'), {
-            type: 'pie',
-            data: {
-                labels: <?php echo json_encode($user_labels); ?>,
-                datasets: [{
-                    label: 'Wishlist Activity',
-                    data: <?php echo json_encode($user_data); ?>,
-                    backgroundColor: [
-                        '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: { display: true, text: 'Top 5 Users' }
-                }
-            }
-        });
-        </script>
-    </div> -->
     </div>
     <?php
 }

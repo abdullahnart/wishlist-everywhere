@@ -87,8 +87,8 @@ class Wishlist_Everywhere_Plugin_Public
          */
 
         wp_register_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wishlist-everywhere-plugin-public.css', array(), $this->version, 'all');
-        // wp_register_style('we_fontawesome', plugin_dir_url(__FILE__) . 'fontawesome/css/all.min.css', array(), $this->version, 'all');
-        wp_register_style('we_fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css', array(), $this->version, 'all');
+        wp_register_style('we_fontawesome', plugin_dir_url(__FILE__) . 'fontawesome/css/all.min.css', array(), $this->version, 'all');
+        // wp_register_style('we_fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css', array(), $this->version, 'all');
         wp_enqueue_style($this->plugin_name);
         wp_enqueue_style('we_fontawesome');
 
@@ -126,20 +126,20 @@ class Wishlist_Everywhere_Plugin_Public
         );
 
         // Register SweetAlert2 (downgraded to v11.4.8 for privacy)
-        // wp_register_script(
-        //     'we_sweet_alert',
-        //     plugin_dir_url(__FILE__) . 'js/sweetalert.js', // Make sure this is v11.4.8
-        //     array('jquery'),
-        //     '11.4.8',
-        //     true
-        // );
         wp_register_script(
             'we_sweet_alert',
-            'https://cdn.jsdelivr.net/npm/sweetalert2@11', // Make sure this is v11.4.8
+            plugin_dir_url(__FILE__) . 'js/sweetalert.js', // Make sure this is v11.4.8
             array('jquery'),
-            '11.23.0',
+            '11.4.8',
             true
         );
+        // wp_register_script(
+        //     'we_sweet_alert',
+        //     'https://cdn.jsdelivr.net/npm/sweetalert2@11', // Make sure this is v11.4.8
+        //     array('jquery'),
+        //     '11.23.0',
+        //     true
+        // );
 
         // Optional: Add defer (WordPress 6.3+)
         if (function_exists('wp_script_add_data')) {
@@ -157,9 +157,14 @@ class Wishlist_Everywhere_Plugin_Public
         ));
         
 
-        wp_localize_script($this->plugin_name, 'MyPluginData', array(
-            'homeUrl' => home_url()
-        ));
+        wp_localize_script(
+            $this->plugin_name,
+            'wishev_plugin_home', // 🔹 use a unique name
+            array(
+                'homeUrl' => home_url(),
+            )
+        );
+
     }
 
 }

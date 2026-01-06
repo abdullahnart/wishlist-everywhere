@@ -19,7 +19,7 @@
  * Plugin Name:       Wishlist Everywhere
  * Plugin URI:        https://github.com/abdullahnart/wishlist-everywhere
  * Description:       A simple yet flexible plugin that enables wishlist functionality for all post types — including products, blog posts, or custom post types. Easily customize labels and manage user wishlists across your WordPress site.
- * Version:           1.1.3
+ * Version:           1.1.6
  * Author:            Abdullah Naseem
  * Author URI:        https://github.com/abdullahnart/wishlist-everywhere/
  * License:           GPL-2.0+
@@ -99,3 +99,25 @@ function wishev_init_plugin()
 
 }
 wishev_init_plugin();
+
+
+
+/**
+ * Initialize the plugin tracker
+ *
+ * @return void
+ */
+function appsero_init_tracker_wishlist_everywhere() {
+
+    if ( ! class_exists( 'Appsero\Client' ) ) {
+      require_once __DIR__ . '/includes/appsero/src/Client.php';
+    }
+
+    $client = new Appsero\Client( '67edb0fc-2749-4f95-a43f-5062ac3f566b', 'Wishlist Everywhere', __FILE__ );
+
+    // Active insights
+    $client->insights()->init();
+
+}
+
+appsero_init_tracker_wishlist_everywhere();

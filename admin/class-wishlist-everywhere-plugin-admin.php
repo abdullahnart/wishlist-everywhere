@@ -88,10 +88,10 @@ class Wishlist_Everywhere_Plugin_Admin
          */
 
         wp_register_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wishlist-everywhere-plugin-admin.css', array(), $this->version, 'all');
-        // wp_register_style('admin_fontawesome', plugin_dir_url(__FILE__) . 'fontawesome/css/all.min.css', array(), $this->version, 'all');
-        wp_register_style('admin_fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css', array(), $this->version, 'all');
+        wp_register_style('wishev-admin-fontawesome', plugin_dir_url(__FILE__) . 'fontawesome/css/all.min.css', array(), $this->version, 'all');
+        // wp_register_style('wishev-admin-fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css', array(), $this->version, 'all');
         wp_enqueue_style($this->plugin_name);
-        wp_enqueue_style('admin_fontawesome');
+        wp_enqueue_style('wishev-admin-fontawesome');
 
 
     }

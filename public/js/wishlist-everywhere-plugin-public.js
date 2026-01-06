@@ -1,7 +1,18 @@
 jQuery(document).ready(
 
     function ($) {
-        
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.wishlist-copy-link')) {
+            const btn = e.target.closest('.wishlist-copy-link');
+            const link = btn.dataset.link;
+
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Clipboard copy failed:', err);
+            });
+        }
+    });
 
 
     $('#all-add-to-cart').on('click', function(e) {
@@ -26,7 +37,7 @@ jQuery(document).ready(
                             text: "All products added to cart!",
                             icon: "success",
                             confirmButtonText: 'OK',
-                            footer: '<a href="' + MyPluginData.homeUrl + '/cart">Go to Cart Page</a>'
+                            footer: '<a href="' + wishev_plugin_home.homeUrl + '/cart">Go to Cart Page</a>'
                         }
                     ).then(
                         (result) =>
@@ -113,7 +124,7 @@ jQuery(document).ready(
                     type: 'POST',
                     url: wishlistEverywhere_ajax.ajaxurl,
                     data: {
-                        action: 'add_to_wishlist',
+                        action: 'wishev_add_to_wishlist',
                         post_id: postId,
                         security: wishlistEverywhere_ajax.nonce
                     },
@@ -124,7 +135,7 @@ jQuery(document).ready(
                                     text: "Item added to wishlist!",
                                     icon: "success",
                                     confirmButtonText: 'OK',
-                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist_page">Go to Wishlist Page</a>'
+                                    footer: '<a href="' + wishev_plugin_home.homeUrl + '/wishlist_page">Go to Wishlist Page</a>'
                                 }
                             ).then(
                                 (result) =>
@@ -146,7 +157,7 @@ jQuery(document).ready(
                                     text: "Item already exists in wishlist!",
                                     icon: "warning",
                                     confirmButtonText: 'OK',
-                                    footer: '<a href="' + MyPluginData.homeUrl + '/wishlist_page">Go to Wishlist Page</a>'
+                                    footer: '<a href="' + wishev_plugin_home.homeUrl + '/wishlist_page">Go to Wishlist Page</a>'
                                 }
                             );
 
@@ -168,7 +179,7 @@ jQuery(document).ready(
                     type: 'POST',
                     url: wishlistEverywhere_ajax.ajaxurl,
                     data: {
-                        action: 'remove_from_wishlist',
+                        action: 'wishev_remove_from_wishlist',
                         post_id: postId,
                         security: wishlistEverywhere_ajax.nonce
                     },
