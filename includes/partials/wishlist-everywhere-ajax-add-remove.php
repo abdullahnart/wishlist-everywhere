@@ -1,10 +1,10 @@
 <?php
 
-add_action('wp_ajax_add_to_wishlist', 'add_to_wishlist_callback');
-add_action('wp_ajax_nopriv_add_to_wishlist', 'add_to_wishlist_callback');
+add_action('wp_ajax_wishev_add_to_wishlist', 'wishev_add_to_wishlist_callback');
+add_action('wp_ajax_nopriv_wishev_add_to_wishlist', 'wishev_add_to_wishlist_callback');
 
 
-function add_to_wishlist_callback()
+function wishev_add_to_wishlist_callback()
 {
 
     // ✅ Verify nonce
@@ -80,11 +80,11 @@ function add_to_wishlist_callback()
     wp_die();
 }
 
-add_action('wp_ajax_remove_from_wishlist', 'remove_from_wishlist_callback');
-add_action('wp_ajax_nopriv_remove_from_wishlist', 'remove_from_wishlist_callback');
+add_action('wp_ajax_wishev_remove_from_wishlist', 'wishev_remove_from_wishlist_callback');
+add_action('wp_ajax_nopriv_wishev_remove_from_wishlist', 'wishev_remove_from_wishlist_callback');
 
 
-function remove_from_wishlist_callback()
+function wishev_remove_from_wishlist_callback()
 {
 
     // ✅ Verify nonce

@@ -1,5 +1,12 @@
 <?php
-    add_filter('the_content', 'add_wishlist_icon_to_posts', 10, 1);
+
+    get_option('enable_post_placement');
+    if (get_option('enable_post_placement') !== 'enable_post_placement') {
+        add_filter('the_content', 'add_wishlist_icon_to_posts', 10, 1);
+    }
+
+
+    add_shortcode('wishlist_post', 'add_wishlist_icon_to_posts', 10, 1);
 
 
     function add_wishlist_icon_to_posts($content) {

@@ -95,7 +95,7 @@ class Wishlist_Everywhere_Plugin
         add_action('admin_enqueue_scripts', [$this,'wishlist_menu_icon_color'], 10 , 1);
         add_filter('the_content',[$this,'wishlist_page_items']);
         add_filter('the_content',[$this,'wishlist_share']);
-        add_action('wp_head',[$this,'add_wishlist_custom_css']);
+        add_action( 'wp_enqueue_scripts', array( $this, 'wishev_add_wishlist_custom_css' ), 20 );
         add_action('wp_footer',[$this,'wishlist_everywhere_js_data']);
         add_action('wp_footer',[$this,'wishlist_everywhere_js_data_single']);
 
@@ -308,14 +308,46 @@ public function custom_login_redirect($redirect_to, $user) {
 }
 
 
-function add_wishlist_custom_css(){
-    $custom_css = get_option('wishlist_custom_css');
-    $enable_css = get_option('enable_custom_css');
-    if(!empty($custom_css) && $enable_css === 'custom_css'){
-        echo '<style id="wishlist-everywhere-custom-css">' . wp_strip_all_tags($custom_css) . '</style>';
-    }else{
-        echo '<style id="wishlist-everywhere-custom-css">
-        </style>';
+public function wishev_add_wishlist_custom_css() {
+
+// 🔒 Ensure base stylesheet is enqueued FIRST
+if ( ! wp_style_is( 'wishev-public-style', 'enqueued' ) ) {
+    wp_enqueue_style(
+        'wishev-public-style',
+        plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/wishlist-everywhere-plugin-public.css',
+        array(),
+        $this->version
+    );
+}
+
+    $enable_css = get_option( 'enable_custom_css' );
+    $custom_css = get_option( 'wishlist_custom_css' );
+
+    $inline_css = '';
+
+    // ✅ User custom CSS (do NOT strip everything)
+    if ( 'custom_css' === $enable_css && ! empty( $custom_css ) ) {
+        $inline_css .= trim( $custom_css ) . PHP_EOL;
+    }
+
+    // ✅ Button styles
+    $button_font_size = absint( get_option( 'button_font_size', 18 ) );
+    $button_bg_color  = sanitize_hex_color( get_option( 'button_bg_color' ) );
+    $button_bg_color2 = sanitize_hex_color( get_option( 'button_bg_color_2' ) );
+    $icon_color       = sanitize_hex_color( get_option( 'icon_color' ) );
+
+    if ( $button_bg_color && $button_bg_color2 && $icon_color ) {
+        $inline_css .= "
+        .wishlist-icon {
+            font-size: {$button_font_size}px;
+            background: linear-gradient(180deg, {$button_bg_color} 0%, {$button_bg_color2} 100%);
+            color: {$icon_color} !important;
+        }";
+    }
+
+    // ✅ Attach inline CSS
+    if ( ! empty( $inline_css ) ) {
+        wp_add_inline_style( 'wishev-public-style', $inline_css );
     }
 }
 
@@ -352,7 +384,8 @@ function wishlist_everywhere_js_data() {
         $table = $wpdb->prefix . 'cstmwishlist';
 
         $ids = $wpdb->get_col($wpdb->prepare("SELECT post_id FROM {$table} WHERE user_id = %d", $user_id));
-        echo '<script>var wishlistPostIds = ' . json_encode($ids) . ';</script>';
+        echo '<script>var wishlistPostIds = ' . wp_json_encode($ids) . ';</script>';
+        // echo '<script>var wishlistPostIds = ' . json_encode($ids) . ';</script>';
     } else {
         echo '<script>var wishlistPostIds = [];</script>';
     }

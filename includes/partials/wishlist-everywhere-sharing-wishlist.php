@@ -51,7 +51,7 @@ function wishlist_everywhere_render_user_wishlist($user_id) {
             echo '<tr>';
             echo '<td>' . esc_html($title) . '</td>';
             echo '<td>' . esc_html($type) . '</td>';
-            echo '<td>' . $price . '</td>';
+            echo '<td>' . wp_kses_post( $price ) . '</td>';
             echo '<td><a href="' . esc_url($link) . '" target="_blank">View</a></td>';
             echo '</tr>';
         }

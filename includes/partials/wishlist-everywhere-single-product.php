@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
     $wishlist_single_position = get_option('wishlist_single_position');
     

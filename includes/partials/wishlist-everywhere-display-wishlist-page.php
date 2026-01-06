@@ -15,7 +15,9 @@ function check_user_id() {
 
     ob_start(); ?>
     <div class="wishlist-share">
+        <?php if ($enable_facebook === 'yes' || $enable_whatsapp === 'yes' || $enable_twitter === 'yes' || $enable_pinterest === 'yes' || $enable_clipboard === 'yes') : ?>
         <p><?php echo esc_html__('Share Your Wishlist:', 'wishlist-everywhere'); ?></p>
+        <?php endif; ?>
         <div class="wishlist-share-buttons">
         <?php if ($enable_facebook === 'yes') : ?>
             <a target = "_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($share_url); ?>">
@@ -38,18 +40,9 @@ function check_user_id() {
             </a>
         <?php endif; ?>
         <?php if ($enable_clipboard === 'yes') : ?>
-            <button onclick="copyWishlistLink('<?php echo esc_url($share_url); ?>')">
-                <i class="fa-solid fa-copy"></i>
-            </button>
-            <script>
-                function copyWishlistLink(link) {
-                    navigator.clipboard.writeText(link).then(function () {
-                        alert('<?php echo esc_html__('Link copied to clipboard!', 'wishlist-everywhere'); ?>');
-                    }).catch(function (err) {
-                        console.error('Clipboard copy failed:', err);
-                    });
-                }
-            </script>
+        <button class="wishlist-copy-link" data-link="<?php echo esc_url( $share_url ); ?>">
+            <i class="fa-solid fa-copy"></i>
+        </button>
         <?php endif; ?>
 
         </div>
@@ -277,14 +270,16 @@ function check_user_id() {
     }
 }
     
-
-            echo '<tr>
-            <td colspan = 2><a href="#" class="remove-all-wishlist" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 Remove All from wishlist </a></td>
-            <td colspan = 3><button id="all-add-to-cart" class="button add-to-cart-btn">Add All to Cart</button></td>
-            </tr>
+    
+            echo '<tr>';
+            echo'<td colspan = 2><a href="#" class="remove-all-wishlist" data-post-id="' . esc_attr($post->ID) . '" data-nonce="' . esc_attr($nonce) . '">🗑 Remove All from wishlist </a></td>';
+            if( $post_type === 'product' ){
+            echo'<td colspan = 3><button id="all-add-to-cart" class="button add-to-cart-btn">Add All to Cart</button></td>';
+            }
+            echo '</tr>
             
             <tr>
-            <td colspan = 5 style ="text-align:right;">'.  check_user_id() .'</td>
+            <td colspan = 5 style ="text-align:right;">'.  wp_kses_post(check_user_id()) .'</td>
             </tr>';
         
             
