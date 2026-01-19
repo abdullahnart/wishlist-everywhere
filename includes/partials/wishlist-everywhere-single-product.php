@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         if($wishlist_postion !== 'single' && is_single()) {
             return;
         }
-        if ($required_login === 'required_login') {
+        if ($required_login == false) {
             // Only for logged-in users
             if (is_user_logged_in()) {
 
@@ -59,7 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 }
 
             } else {
-        // Get the current URL to redirect back after login
+            // Get the current URL to redirect back after login
                 $current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                 // var_dump($current_url);
 
@@ -86,9 +86,25 @@ if ( ! defined( 'ABSPATH' ) ) {
                 $added_class = ' added';
             }
 
-            $wishlist_icon = '<a href="#" class="wishlist-icon" data-post-id="' . esc_attr(get_the_ID()) . '">' . $wishlist_title . '</a>';
-            $content = $wishlist_icon . $content;
-            echo wp_kses_post($content);
+                if($wishlist_icon_option === 'text_only'){
+                    $wishlist_icon = '
+                        <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '">' . esc_html($wishlist_title) . '</a>
+                    ';
+                        $content = $wishlist_icon . $content;
+                        echo ($wishlist_icon) ;
+                }else if($wishlist_icon_option === 'icon_only'){
+                    $wishlist_icon = '
+                        <a href="#" class="wishlist-icon icon-only" data-post-id="' . esc_attr(get_the_ID()) . '"><i class="fa-regular fa-heart"></i></a>
+                    ';
+                        $content = $wishlist_icon . $content;
+                        echo ($wishlist_icon) ;
+                }else{
+                    $wishlist_icon = '
+                        <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '"> <i class="fa-regular fa-heart"></i>' . esc_html($wishlist_title) . '</a>
+                    ';
+                        $content = $wishlist_icon . $content;
+                       echo ($wishlist_icon) ;
+                }
         }                                 
                      
 

@@ -12,17 +12,17 @@
  */
 
 function render_wishlist_analytics_page() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'cstmwishlist_logs';
+global $wpdb;
+$table_name = $wpdb->prefix . 'cstmwishlist_logs';
 
-    // --- Top Products ---
-    $top_products = $wpdb->get_results("
-        SELECT post_id, COUNT(*) as total
-        FROM {$table_name}
-        GROUP BY post_id
-        ORDER BY total DESC
-        LIMIT 5
-    ");
+// Top 5 most wishlisted products by UNIQUE customers
+$top_products = $wpdb->get_results("
+    SELECT post_id, COUNT(DISTINCT user_id) as total
+    FROM {$table_name}
+    GROUP BY post_id
+    ORDER BY total DESC
+    LIMIT 5
+");
 
     // $product_labels = [];
     // $product_data   = [];
@@ -55,32 +55,36 @@ function render_wishlist_analytics_page() {
     // }
     ?>
 
-<div class = "wishlist-analytics-table">
+<div class="wishlist-analytics-table">
     <h1>Most Wishlisted Products</h1>
     <div class="wishlisted-products">
-                <?php foreach ($top_products as $product) : 
+        <?php foreach ($top_products as $product) : 
             $post_type = get_post_type($product->post_id);
-            if ($post_type !== 'product') {
-                continue; // Skip non-product post types
-            }
-            
-            ?>
-    <table>
-
-        <th align = "left">Product Image</th>
-        <th>Number of Visits</th>
-        <th>View Product</th>
+            if ($post_type !== 'product') continue;
+        ?>
+        <table>
             <tr>
-                <td class ="first-col"><?php echo get_the_post_thumbnail($product->post_id); ?><span><?php echo esc_html( get_the_title($product->post_id) ); ?></span></td>
-                <td align = "center"><?php echo esc_html($product->total); ?></td>
-                <td align = "center"><a class="wishlist-link" target = "_blank" href = "<?php echo esc_url(get_permalink ($product->post_id)); ?>">View</a></td>
-        </tr>
-        
+                <th align="left">Product Image</th>
+                <th>Number of Visits</th>
+                <th>View Product</th>
+            </tr>
+            <tr>
+                <td class="first-col">
+                    <?php echo get_the_post_thumbnail($product->post_id); ?>
+                    <span><?php echo esc_html(get_the_title($product->post_id)); ?></span>
+                </td>
+                <td align="center">
+                   <?php echo esc_html($product->total); ?>
+                </td>
+                <td align="center">
+                    <a class="wishlist-link" target="_blank" href="<?php echo esc_url(get_permalink($product->post_id)); ?>">View</a>
+                </td>
+            </tr>
+        </table>
+        <?php endforeach; ?>
+    </div>
+</div>
 
-    </table>
-    <?php endforeach; ?>
-    </div>
-    </div>
     <?php
 }
 

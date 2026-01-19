@@ -211,9 +211,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     $wishlist_custom_icon = '';
 
     // Start building dropdown only if post types are available
-    if (!empty($wishlist_post_name)) {
-        $dropdown_val .= '<option value="' . esc_attr($wishlist_post_name) . '" selected>' . esc_html($wishlist_post_name) . '</option>';
+   //  if (!empty($wishlist_post_name)) {
+   //      $dropdown_val .= '<option value="' . esc_attr($wishlist_post_name) . '" selected>' . esc_html($wishlist_post_name) . '</option>';
+   //  }
+
+if ( ! empty( $wishlist_post_name ) ) {
+
+    $post_type_object = get_post_type_object( $wishlist_post_name );
+
+    if ( $post_type_object ) {
+        $post_type_label = $post_type_object->labels->singular_name;
+        // or: $post_type_object->labels->name;  // plural label
+
+        $dropdown_val .= '<option value="' . esc_attr( $wishlist_post_name ) . '" selected>'
+                       . esc_html( $post_type_label ) .
+                       '</option>';
     }
+}
 
    if (!empty($wishlist_post_types)) {
       foreach ($wishlist_post_types as $post_type_key => $post_type_obj) {
@@ -286,7 +300,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             </select>
          </div>
          <div class="form-group login-tab">
-            <label>Require Login</label>
+            <label>Guest User Login</label>
             <div id="container" class="gd">
                <div class="toggle-button-container">
                   <div class="toggle-button gd">
@@ -356,7 +370,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
       <strong>Enable Wishlist For</strong>: Choose the post type (such as Products, Posts, or Custom post type) where the wishlist feature should be available.
     </li>
     <li>
-      <strong>Require Login</strong>: Enable this option to restrict wishlist usage to logged-in users only.
+      <strong>Guest User Login</strong>: Enable this option to allow guest users to add items to their wishlist.
     </li>
     <li>
       <strong>Wishlist Tab in My Account</strong>: Adds a dedicated “Wishlist” tab to the WooCommerce <strong>My Account</strong> section for easy access.

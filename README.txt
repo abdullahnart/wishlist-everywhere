@@ -1,9 +1,9 @@
 === Wishlist Everywhere ===
 Contributors: abdullahart
-Tags: wishlist, post types, custom post types, WooCommerce
+Tags: wishlist, post type wishlist, custom post type, woocommerce wishlist, product wishlist
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

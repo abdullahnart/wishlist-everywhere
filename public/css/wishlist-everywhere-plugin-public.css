@@ -270,6 +270,7 @@ a.view {
     display: flex;
     align-items: center;
     gap: 7px;
+    z-index: 9;
 }
 .no_thumbnail .wishlist-icon.archive {
     margin-left: 0;

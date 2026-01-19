@@ -38,6 +38,11 @@ function wishlist_everywhere_render_user_wishlist($user_id) {
         foreach ($ids as $post_id) {
             $title = get_the_title($post_id);
             $type  = get_post_type($post_id);
+            $post_type_obj = get_post_type_object($type);
+            var_dump($post_type_obj);
+            if($post_type_obj){
+                $post_type_label = $post_type_obj->labels->singular_name;
+            }
             $link = get_permalink($post_id);
 
             $price = '-------------';
@@ -50,7 +55,7 @@ function wishlist_everywhere_render_user_wishlist($user_id) {
 
             echo '<tr>';
             echo '<td>' . esc_html($title) . '</td>';
-            echo '<td>' . esc_html($type) . '</td>';
+            echo '<td>' . esc_html($post_type_label) . '</td>';
             echo '<td>' . wp_kses_post( $price ) . '</td>';
             echo '<td><a href="' . esc_url($link) . '" target="_blank">View</a></td>';
             echo '</tr>';

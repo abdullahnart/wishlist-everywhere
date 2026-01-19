@@ -35,7 +35,7 @@
     // Choose class for position
     $position_class = $wishlist_position === 'above_thumbnail' ? 'above_thumbnail' : 'no_thumbnail';
     $wishlist_icon_option = get_option('wishlist_custom_icon');
-    if ($required_login === 'required_login') {
+    if ($required_login == false) {
         // Only for logged-in users
         if (is_user_logged_in()) {
             if($wishlist_icon_option === 'text_only'){
