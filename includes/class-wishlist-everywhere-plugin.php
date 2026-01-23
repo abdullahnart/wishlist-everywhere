@@ -91,6 +91,7 @@ class Wishlist_Everywhere_Plugin
         // Step 4: Handle Wishlist Actions
         add_filter('woocommerce_login_redirect', [$this, 'custom_login_redirect'], 10, 2);
         add_filter('init', array($this, 'guest_user_wishlist'));
+        add_filter('wp_login', array($this, 'wishev_merge_guest_wishlist_on_login'), 10, 2);
         // add_filter('woocommerce_add_to_cart_redirect', array($this, 'custom_redirect_after_add_to_cart'), 10, 1);
         add_action('admin_enqueue_scripts', [$this,'wishlist_menu_icon_color'], 10 , 1);
         add_filter('the_content',[$this,'wishlist_page_items']);
@@ -261,6 +262,59 @@ class Wishlist_Everywhere_Plugin
     }
     }
 
+function wishev_merge_guest_wishlist_on_login($user_login, $user) {
+    // Session already started via init
+    if (isset($_SESSION['guest_wishlist']) && is_array($_SESSION['guest_wishlist'])) {
+        error_log('Guest wishlist before merge: ' . print_r($_SESSION['guest_wishlist'], true));
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'cstmwishlist';
+        $table_name_analytics = $wpdb->prefix . 'cstmwishlist_logs';
+        $user_id = $user->ID;
+
+        foreach ($_SESSION['guest_wishlist'] as $post_id) {
+            // Skip if already exists
+            $exists = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT COUNT(*) FROM {$table_name} WHERE post_id = %d AND user_id = %d",
+                    $post_id,
+                    $user_id
+                )
+            );
+
+            if (!$exists) {
+                // Add to analytics
+                $wpdb->insert(
+                    $table_name_analytics,
+                    array(
+                        'post_id' => $post_id,
+                        'user_id' => $user_id,
+                        'created_at' => current_time('mysql')
+                    ),
+                    array('%d','%d','%s')
+                );
+
+                // Add to main wishlist table
+                $wpdb->insert(
+                    $table_name,
+                    array(
+                        'post_id' => $post_id,
+                        'user_id' => $user_id
+                    ),
+                    array('%d','%d')
+                );
+            }
+        }
+
+        // Optional: flag for frontend notification
+        $_SESSION['guest_wishlist_merged'] = true;
+
+        // Clear guest session
+        unset($_SESSION['guest_wishlist']);
+        error_log('Guest wishlist merged successfully for user ID: ' . $user_id);
+    }
+}
+
+    
     /**
      * Show Remove to Wishlist in Wishlist Page.
      *
@@ -419,6 +473,7 @@ function add_files_to_wishlist(){
     require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-display-wishlist-page.php';
     require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-my-account-tab.php';
     require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-sharing-wishlist.php';
+    require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-counter.php';
 }
 
 }

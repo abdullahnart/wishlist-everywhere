@@ -31,7 +31,14 @@
 
    jQuery(document).ready(function(){
 
+    
 
+
+    // $('.copy_code').on('click', function() {
+    //     var codeText = $(this).text();
+    //     navigator.clipboard.writeText(codeText);
+    //     alert('Shortcode copied to clipboard: ' + codeText);
+    // });
     function toggleEnableCss(){
             var wishCss = $('#enable_css');
             console.log();

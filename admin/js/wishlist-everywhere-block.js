@@ -20,3 +20,24 @@ registerBlockType('wishlist-everywhere/wishlist-block', {
         return null;
     }
 })
+
+registerBlockType('wishlist-everywhere/wishlist-counter', {
+    title:'Wishlist Counter',
+    icon:'heart',
+    category: 'widgets',
+
+    edit(){
+        return(
+            wp.element.createElement(
+                'p',
+                null,
+                'Wishlist Counter will appear here on the frontend.'
+            )
+        );
+    },
+
+    save(){
+        return null;
+    }
+
+});

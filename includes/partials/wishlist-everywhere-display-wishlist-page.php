@@ -90,15 +90,39 @@ function check_user_id() {
         );
     } else {
         // Guest wishlist from session
-        if (!session_id()) {
-            session_start();
-        }
         if (!empty($_SESSION['guest_wishlist'])) {
             // Format same way as DB rows (so code below works uniformly)
             $wishlist_items = array_map(function($post_id) {
                 return (object)['post_id' => $post_id];
             }, $_SESSION['guest_wishlist']);
         }
+    }
+
+
+        /*
+     * ============================
+     * NEW PART: Filter by post_type
+     * ============================
+     */
+    if (!empty($allowed_post_types) && !empty($wishlist_items)) {
+
+        $wishlist_items = array_filter($wishlist_items, function($item) use ($allowed_post_types) {
+
+            if (empty($item->post_id)) {
+                return false;
+            }
+
+            $item_post_type = get_post_type($item->post_id);
+
+            if (!$item_post_type) {
+                return false;
+            }
+
+            return in_array($item_post_type, $allowed_post_types, true);
+        });
+
+        // Re-index array after filtering
+        $wishlist_items = array_values($wishlist_items);
     }
         $remove_wishlist_title = get_option('wishev_removed_wishlist_label');
         if (empty($wishlist_items)) {

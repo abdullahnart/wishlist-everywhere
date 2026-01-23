@@ -34,6 +34,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         'custom_position' => 'Custom Position',
     ];
 
+// Get all registered menus
+$menus = wp_get_nav_menus();
+
     $wishlist_icons = [
         'icon_only' => 'Icon Only',
         'text_only' => 'Text Only',
@@ -78,7 +81,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         if (!empty($_POST['single_option'])) {
             $single_option = sanitize_text_field(wp_unslash($_POST['single_option']));
             update_option('wishlist_single_position', $single_option, true);
-        }        
+        }    
+        
+      // 3. Handle form submission
+      if ( isset($_POST['menu_dropdown']) ) {
+         $selected_menu = intval($_POST['menu_dropdown']); // sanitize input
+         update_option('wishlist_menu_id', $selected_menu, true);    // save to options
+      }        
     
         if (!empty($_POST['wishlist_custom_icon'])) {
             $wishlist_custom_icon = sanitize_text_field(wp_unslash($_POST['wishlist_custom_icon']));
@@ -136,6 +145,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             update_option('icon_color', wp_kses_post($_POST['icon_color']));
         }
 
+         if (isset($_POST['counter_color'])){
+            update_option('counter_color', wp_kses_post($_POST['counter_color']));
+        }
+
          // Facebook
          if (isset($_POST['share_facebook']) && $_POST['share_facebook'] === 'yes') {
             update_option('enable_facebook', 'yes');
@@ -170,12 +183,17 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
          } else {
             delete_option('enable_clipboard');
          }
-
         
         if (isset($_POST['wishlist_single']) && $_POST['wishlist_single'] === 'single') {
             update_option('wishlist_for_single', 'single');
         } else {
             delete_option('wishlist_for_single');
+        }
+
+        if (isset($_POST['wish_count']) && $_POST['wish_count'] === 'counted') {
+            update_option('wish_for_count', 'counted');
+        } else {
+            delete_option('wish_for_count');
         }
 
         if (isset($_POST['enable_css']) && $_POST['enable_css'] === 'custom_css') {
@@ -201,7 +219,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     $wishlist_position = get_option('wishlist_archive_position');
     $wishlist_single_position = get_option('wishlist_single_position');
     $wishlist_icon_option = get_option('wishlist_custom_icon');
-
+    $wishlist_menu_id = get_option('wishlist_menu_id');
+    // For multiple selection of post types comment this line
     unset($wishlist_post_types[$wishlist_post_name]);
 
     // Initialize the variable to avoid undefined warnings
@@ -209,8 +228,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     $archive_position_val = '';
     $single_position_val = '';
     $wishlist_custom_icon = '';
+    $menu_dropdown_val = '';
+    $menu_dropdown_val .= '<option value="">-- Select a Menu --</option>';
 
-    // Start building dropdown only if post types are available
+   // Start building dropdown only if post types are available
    //  if (!empty($wishlist_post_name)) {
    //      $dropdown_val .= '<option value="' . esc_attr($wishlist_post_name) . '" selected>' . esc_html($wishlist_post_name) . '</option>';
    //  }
@@ -236,9 +257,42 @@ if ( ! empty( $wishlist_post_name ) ) {
                . '</option>';
       }
    }
-    // if (!empty($wishlist_position)) {
-    //     $archive_position_val .= '<option value="' . esc_attr($wishlist_position) . '" selected>' . esc_html($wishlist_position) . '</option>';
-    // }    
+
+
+   // For Multiple Selection of Post Types
+
+   // if ( ! empty( $wishlist_post_name ) ) {
+   //    $post_type_object = get_post_type_object( $wishlist_post_name );
+   //    if ( $post_type_object ) {
+   //       $post_type_label = $post_type_object->labels->singular_name;
+   //       $dropdown_val .= '<option value="' . esc_attr( $wishlist_post_name ) . '" selected>'
+   //                      . esc_html( $post_type_label ) .
+   //                      '</option>';
+   //    }
+   // }
+
+   // if ( ! empty( $wishlist_post_types ) ) {
+   //    foreach ( $wishlist_post_types as $post_type_key => $post_type_obj ) {
+   //       $selected = '';
+   //       // Check if this post type is saved in options
+   //       $saved_post_types = get_option( 'wishev_filter_post_name', array() );
+   //       if ( in_array( $post_type_key, (array) $saved_post_types, true ) ) {
+   //             $selected = ' selected';
+   //       }
+
+   //       $dropdown_val .= '<option value="' . esc_attr( $post_type_key ) . '"' . $selected . '>'
+   //                      . esc_html( $post_type_obj->labels->singular_name )
+   //                      . '</option>';
+   //    }
+   // }
+
+   // // Save selected post types if form submitted
+   // if ( ! empty( $_POST['filter_post_type'] ) ) {
+   //    $filter_post_type = array_map( 'sanitize_text_field', wp_unslash( $_POST['filter_post_type'] ) );
+   //    update_option( 'wishev_filter_post_name', $filter_post_type );
+   // }
+
+      
     if (!empty($wishlist_archive_positions)) {
         foreach ($wishlist_archive_positions as $value => $label) {
             $archive_position_val .= sprintf(
@@ -262,6 +316,19 @@ if ( ! empty( $wishlist_post_name ) ) {
         }
     }
 
+    
+   // Loop through menus
+   if ( ! empty( $menus ) ) {
+      foreach ( $menus as $menu ) {
+         $menu_dropdown_val .= sprintf(
+               '<option value="%s"%s>%s</option>',
+               esc_attr( $menu->term_id ), // value = menu ID
+               selected( $wishlist_menu_id ?? '', $menu->term_id, false ), // mark selected if matches saved
+               esc_html( $menu->name ) // menu name as label
+         );
+      }
+   }
+
 
     if (!empty($wishlist_icons)) {
         foreach ($wishlist_icons as $value => $label) {
@@ -274,10 +341,22 @@ if ( ! empty( $wishlist_post_name ) ) {
         }
     }    
 
+
+// For multiple selection of post types HTML part 
+
+// <select id="filter_post_type" name="filter_post_type[]" multiple>
+//             ' . wp_kses($dropdown_val, array(
+//             'option' => array(
+//             'value' => true,
+//             'selected' => true
+//             )
+//             )) . '
+//             </select>
+
  echo '
 <div class="admin-post-sec">
    <br>
-   <h1>Wishlist Settings</h1>
+   <h1>General Settings</h1>
    <br>
    <h4 style="width:60%;">Enable a wishlist feature for all post types, allowing users to save and manage their favorite content—whether its products, blog posts, or custom items—creating a personalized and engaging browsing experience.</h4>
    <br>
@@ -287,7 +366,7 @@ if ( ! empty( $wishlist_post_name ) ) {
       echo '
       <div class = "row_wrapper">
       <div class = "group-wrapper">
-        <h2>General Settings</h2>
+        <h2>Wishlist Settings</h2>
          <div class="form-group">
             <label>Enable wishlist for</label>
             <select id="filter_post_type" name="filter_post_type">
@@ -385,7 +464,7 @@ if ( ! empty( $wishlist_post_name ) ) {
 
       </div>
       </div>
-      <div class = "row_wrapper wishev_position" style = "display:none;">
+   <div class = "row_wrapper wishev_position" style = "display:none;">
       <div class = "group-wrapper" >
          <h2>Product Listing Button Settings</h2>
          <div class="form-group">
@@ -413,10 +492,10 @@ if ( ! empty( $wishlist_post_name ) ) {
       </div>
       <div class = "detail-wrapper">
          <ol>
-  <li>
-    <strong>Enable Wishlist on Product Listing Page</strong><br>
-  </li>
-  <li>
+      <li>
+         <strong>Enable Wishlist on Product Listing Page</strong><br>
+      </li>
+      <li>
     <strong>Wishlist Button Position</strong><br>
     Choose where the button appears in the product card:
     <ol>
@@ -588,7 +667,63 @@ if ( ! empty( $wishlist_post_name ) ) {
          </ol>
 
       </div>
-      </div>      
+      </div> 
+   <div class = "row_wrapper wishev_position" style = "display:none;">
+      <div class = "group-wrapper">
+         <h2>Wishlist Product Counter</h2>
+         <div class="form-group">
+            <label>Enable Wishlist Counter</label>
+            <div id="container" class="gd">
+               <div class="toggle-button-container">
+                  <div class="toggle-button gd">
+                     <div class="btn btn-rect" id="button-10">
+                        <input type="checkbox" class="checkbox" id="wish_count" name="wish_count" value="counted"' . checked(get_option('wish_for_count'), 'counted', false) . ' />
+                        <div class="knob">
+                           <span>NO</span>
+                        </div>
+                        <div class="btn-bg"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="form-group for_single">
+            <label>Wishlist Menu Location</label>
+            <select id="menu_dropdown" name="menu_dropdown">
+                ' . $menu_dropdown_val . '
+            </select>
+         </div>
+         <div class="form-group counter-color">
+               <label>Counter Icon Color</label>
+               <input type="color" id="counter_color" name="counter_color" value="' . esc_attr(get_option('counter_color')) . '">
+         </div>
+      </div>
+<div class="detail-wrapper">
+   <ol>
+      <li>
+         <strong>Enable Wishlist Counter</strong><br>
+         Turn this option on to display a wishlist item counter, allowing customers to see how many products they have added to their wishlist.
+      </li>
+
+      <li>
+         <strong>Wishlist Menu Location</strong><br>
+         Select where the wishlist counter should appear in your website navigation menu.
+      </li>
+
+      <li>
+         <strong>Counter Icon Color</strong><br>
+         Choose the color of the wishlist counter icon to match your website branding and improve visibility for customers.
+      </li>
+
+      <li>
+         <strong>Wishlist Counter Shortcode</strong><br>
+         Use the <code>[wishlist_everywhere_counter]</code> shortcode to display the wishlist button anywhere on the product page.
+         This shortcode must be added individually to each product.
+      </li>
+   </ol>
+</div>
+      
+      </div>           
       <div class="row_wrapper">
          <div class = "group-wrapper">
             <h2>Entire Wishlist Sharing Options</h2>      

@@ -130,6 +130,41 @@ jQuery(document).ready(
                     },
                     success: function (response) {
                         if (response.success) {
+
+// Update wishlist counter in header (real-time)
+jQuery.ajax({
+    type: 'POST',
+    url: wishlistEverywhere_ajax.ajaxurl,
+    data: {
+        action: 'wishev_get_wishlist_count'
+    },
+    success: function(res) {
+
+        if (res.success) {
+            var count = res.data.count;
+
+            console.log('New count:', count);           // 👈 DEBUG
+
+            var counterEl = jQuery('.wishlist-counter .wishlist-count');
+            var iconEl    = jQuery('.wishlist-counter i');
+
+
+            // Update number
+            counterEl.text(count);
+
+            // Update heart icon
+            if (count > 0) {
+                iconEl.removeClass('far fa-heart').addClass('fas fa-heart fa-solid');
+            } else {
+                iconEl.removeClass('fas fa-heart fa-solid').addClass('far fa-heart');
+            }
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('Counter AJAX error:', error);     // 👈 DEBUG
+    }
+});
+                            
                             Swal.fire(
                                 {
                                     text: "Item added to wishlist!",
@@ -185,6 +220,34 @@ jQuery(document).ready(
                     },
                     success: function (response) {
                         if (response.success) {
+
+// Update wishlist counter in header (real-time after REMOVE)
+jQuery.ajax({
+    type: 'POST',
+    url: wishlistEverywhere_ajax.ajaxurl,
+    data: {
+        action: 'wishev_get_wishlist_count'
+    },
+    success: function(res) {
+        if (res.success) {
+            var count = res.data.count;
+
+            // Update all counters safely (desktop + mobile)
+            jQuery('.wishlist-counter').each(function() {
+
+                jQuery(this).find('.wishlist-count').text(count);
+
+                var icon = jQuery(this).find('i');
+                if (count > 0) {
+                    icon.removeClass('far fa-heart').addClass('fas fa-heart fa-solid');
+                } else {
+                    icon.removeClass('fas fa-heart fa-solid').addClass('far fa-heart');
+                }
+            });
+        }
+    }
+});
+
                             if (!silent) {
                             Swal.fire(
                                 {

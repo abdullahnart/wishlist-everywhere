@@ -218,12 +218,14 @@ Wishlist Sharing Introduced:
 
 
 = 1.1.4 =
-🔧 All issues fixed which Wordpress given me
+🔧 Fixed all issues reported by WordPress review team
 
 
 = 1.1.5 =
-🔧 Variable issue has been resolved
+🧩 Resolved variable-related issues and improved stability
 
 
 = 1.1.6 =
 📊 Add Tracking Usage in this plugin
+🔢 Introduced wishlist counter (Menu & Shortcode support) 
+🧱 Added Gutenberg Counter Block for easy insertion

@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     function add_wishlist_icon_to_product_single($content)
     {
         $all_post_name = get_option('wishev_filter_post_name');
+        // For multiple post types, you might want to use:
+        // $all_post_name = get_option('wishev_filter_post_name' , array() );
         $wishlist_title = get_option('wishlist_name');
         $wishlist_postion = get_option('wishlist_for_single');
         $required_login     = get_option('required_login');
@@ -34,6 +36,19 @@ if ( ! defined( 'ABSPATH' ) ) {
         if($wishlist_postion !== 'single' && is_single()) {
             return;
         }
+
+        // For multiple post types, you might want to use:
+
+        // if ( ! is_array( $all_post_name ) ) {
+        //     $all_post_name = array( $all_post_name );
+        // }
+
+        // // Check if current post type is allowed
+        // if ( ! in_array( $post->post_type, $all_post_name, true ) ) {
+        //     return $content;
+        // }
+
+        
         if ($required_login == false) {
             // Only for logged-in users
             if (is_user_logged_in()) {

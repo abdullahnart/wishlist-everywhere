@@ -61,9 +61,6 @@ function wishev_add_to_wishlist_callback()
     }
 }else{
     // ✅ Guest user, save in PHP session
-    if (!session_id()) {
-        session_start();
-    }
 
     if (!isset($_SESSION['guest_wishlist'])) {
         $_SESSION['guest_wishlist'] = [];
@@ -117,9 +114,6 @@ if (is_user_logged_in() && current_user_can('read')) {
 
 }
 else{
-    if(!session_id()){
-        session_start();
-    }
     
     if(!empty($_SESSION['guest_wishlist'])){
         $_SESSION['guest_wishlist'] = array_filter(
@@ -133,3 +127,27 @@ else{
 }
     wp_die();
 }
+
+add_action('wp_ajax_wishev_get_wishlist_count', 'wishev_get_wishlist_count');
+add_action('wp_ajax_nopriv_wishev_get_wishlist_count', 'wishev_get_wishlist_count');
+
+function wishev_get_wishlist_count() {
+
+    if ( ! is_user_logged_in() ) {
+        wp_send_json_success( array( 'count' => 0 ) );
+    }
+
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'cstmwishlist';
+    $current_user_id = get_current_user_id();
+
+    $count = (int) $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT COUNT(*) FROM {$table_name} WHERE user_id = %d",
+            $current_user_id
+        )
+    );
+
+    wp_send_json_success( array( 'count' => $count ) );
+}
+

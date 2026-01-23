@@ -141,8 +141,9 @@ class Wishlist_Everywhere_Plugin_Admin
      */
     public function wishlistItems()
     {
-        add_menu_page('Wishlist', 'Wishlist Items', 'manage_options', 'wishlist_add', [$this,'wishlishFunc'], 'dashicons-heart', 25);
-        add_submenu_page('wishlist_add', 'Wishlist Settings', 'Wishlist Settings', 'manage_options', 'wishev_shortcode', [$this,'wishlishShortode']);
+        add_menu_page('Wishlist', 'Wishlist', 'manage_options', 'wishlist_add',null , 'dashicons-heart', 25);
+        add_submenu_page('wishlist_add', 'General Settings', 'General Settings', 'manage_options', 'wishlist_add', [$this,'wishlishFunc']);
+        add_submenu_page('wishlist_add', 'Wishlist Access', 'Wishlist Access', 'manage_options', 'wishev_shortcode', [$this,'wishlishShortode']);
         add_submenu_page('wishlist_add', 'Wishlist Analytics', 'Wishlist Analytics', 'manage_options', 'wishev_analytics', [$this,'wishlistAnalytics']);
     }
     /**
