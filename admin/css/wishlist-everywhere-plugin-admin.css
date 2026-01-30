@@ -19,6 +19,72 @@
     --wishev-muted: #6B7280;    /* Secondary text */
  }
 
+ *{
+    scroll-behavior: smooth;
+ }
+
+.toplevel_page_wishlist_add div#wpcontent {
+    padding: 0;
+}
+.admin-post-content {
+    margin: -80px 20px 0;
+}
+.wishev-admin-header {
+    background: linear-gradient(135deg, #20225e -10%, #20225e8c 240%);
+    padding: 30px 20px 100px;
+    background: linear-gradient(255deg, #9088b7, #231c6a);
+    background: linear-gradient(180deg, var(--proteo-button_2_bg_color_1, #00a79c) 0%, var(--proteo-button_2_bg_color_2, #01af8d) 100%);
+}
+.go_top a {
+    position: fixed;
+    right: 30px;
+    bottom: 20px;
+    z-index: 9;
+    background: linear-gradient(180deg, var(--proteo-button_2_bg_color_1, #00a79c) 0%, var(--proteo-button_2_bg_color_2, #01af8d) 100%);
+    padding: 7px;
+    border-radius:50px;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.go_top a i {
+    font-size: 18px;
+}
+.tab_button.active {
+    background-color: #fff;
+}
+.wishev-admin-header * {
+    color: #fff;}
+
+
+.button_group.btn_fixed {
+    position: fixed;
+    right: 0;
+}
+.button_group.btn_fixed a span {
+    display: none;
+}
+.button_group.btn_fixed .tab_button {
+    display: flex;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 5px;
+    padding: 17px;
+    background: #ffffff;
+    margin-bottom: 4px;
+}
+.button_group.btn_fixed a.tab_button.active {
+    background: linear-gradient(180deg, var(--proteo-button_2_bg_color_1, #00a79c) 0%, var(--proteo-button_2_bg_color_2, #01af8d) 100%);
+}
+.button_group.btn_fixed a.tab_button.active i {
+    color: #fff;
+}    
  /* ================================
    Wishlist Everywhere – Access UI
    ================================ */
@@ -28,7 +94,7 @@
     background: var(--wishev-bg);
     padding: 28px;
     border-radius: 10px;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 /* Title & Subtitle */
@@ -226,8 +292,9 @@
     width: 60%;
     background: #fff;
     padding: 20px;
-    box-shadow: 1px 1px 10px 1px #00000005;
-    border-radius: 3px;
+    /* box-shadow: 1px 1px 10px 1px #00000005; */
+    border-radius: 12px;
+    border-top-left-radius: 0;
 }
 .admin-post-sec .form-group {
     display: flex;
@@ -264,7 +331,7 @@
 .admin-post-sec .fixed {
     position: fixed;
     right: -60px;
-    top: 25%;
+    top: 15%;
     transition: 0.4s ease-in-out;
 }
 
@@ -290,7 +357,19 @@
     padding-bottom: 20px;
     font-weight: 400;
 }
-
+.tab_button {
+    margin: 0;
+    display: inline-block;
+    background: #ffffff45;
+    padding: 14px 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #3c434a;
+    text-decoration: none;
+}
 .gd {
   display: grid;
 }
@@ -406,7 +485,7 @@
   background-color: #6aa29e45;
 }
 .wishlisted-products img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
-    width: 40px;
+    width: 60px;
     height: auto;
     padding: 7px;
     background: #FCF9F4;
@@ -431,23 +510,24 @@
     font-weight: 500;
     color: #000;
 }
-.wishlisted-products table {
-    background: #FFFEFB;
-    padding: 10px;
+.wishlisted-products .wishlist-analytics-card {
+    background: #fff;
+    padding: 15px 15px 22px 15px;
     border-radius: 7px;
     box-shadow: 0px 0px 6px -2px #0000002b;
-    width: 30%;
+    /* width: 30%; */
 }
 .wishlisted-products .wishlist-link {
     text-decoration: none !important;
     color: #fff !important;
-    padding: 8px 16px;
+    padding: 12px 16px;
     background: linear-gradient(180deg, var(--proteo-button_2_bg_color_1, #00a79c) 0%, var(--proteo-button_2_bg_color_2, #01af8d) 100%);
     border-radius: 6px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    font-size: 14px;
     box-shadow: none;
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
 }
 .wishlist-analytics-table h2 {
     color: #737572;
@@ -461,8 +541,10 @@
     margin-top: 40px;
 }
 .wishlisted-products {
-    display: flex;
+    display: grid;
     flex-wrap: wrap;
+    padding: 0 40px;
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 .wishlist-analytics-table h1 {
@@ -470,7 +552,47 @@
     text-align: center;
     line-height: 30px;
 }
+.wishlist-analytics-table .analytics-header p {
+    text-align: center;
+    font-size: 16px;
+}
+.analytics-header {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.analytics-header h3 {
+    margin: 0;
+    padding: 20px 15px;
+    background: #fff;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0px 0px 6px -2px #0000002b;
+    margin-bottom: 10px;
+}
 .admin-post-sec input[type="color"] {
     width: 50px !important;
     height: 50px;
 }
+.analytics-card-content {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #00000012;
+}
+.analytics-card-content p {
+    margin: 0;
+}
+.analytics-card-content p:first-child {
+    font-size: 16px;
+    color: #3f3d3d;
+    font-weight: 500;
+}
+p.wishlist-count i {
+    color: var(--proteo-button_2_bg_color_1);
+}
+.wishlisted-products .wishlist-link i {
+    font-size: 12px;
+}
+

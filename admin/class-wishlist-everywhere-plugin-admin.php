@@ -62,6 +62,7 @@ class Wishlist_Everywhere_Plugin_Admin
         add_action('admin_menu', [$this, 'wishlistItems']);
         // add_action('init', [$this, 'wishlist_add_gutenberg_block']);
         $this->wishlist_add_gutenberg_block();
+        add_filter('admin_body_class',array( $this, 'wishlist_everywhere_add_body_class' ));
         // add_action('elementor/widgets/widgets_registered', [$this, 'wishlist_everywhere_register_widget']);
     }
 
@@ -186,6 +187,18 @@ class Wishlist_Everywhere_Plugin_Admin
     public function wishlist_everywhere_register_widget($widgets_manager){
         require_once plugin_dir_path(__FILE__) . 'partials/wishlist-everywhere-elementor-widget.php';
         $widgets_manager->register( new \Wishlist_Everywhere_Elementor_Widget() );
+    }
+
+    public function wishlist_everywhere_add_body_class( $classes ) {
+
+    $screen = get_current_screen();
+    // var_dump($screen);
+        if ($screen && $screen->id === 'toplevel_page_wishlist-everywhere') {
+            $classes .= ' wishlist-everywhere-admin';
+        }
+
+        return $classes;
+
     }
 }
 

@@ -31,7 +31,40 @@
 
    jQuery(document).ready(function(){
 
+
+	const elm_class = '.go_top'; // Adjust this accordingly. 
+
+	//Check to see if the window is top if not then display button
+	$(window).scroll(function(){
+		if ($(this).scrollTop() > 300) { // 300px from top
+			$(elm_class).fadeIn();
+		} else {
+			$(elm_class).fadeOut();
+		}
+	});
+
+
+	var group_class = '.button_group'; // Adjust this accordingly. 
+
+	//Check to see if the window is top if not then display button
+	$(window).scroll(function(){
+		if ($(this).scrollTop() > 300) { // 300px from top
+			$(group_class).addClass('btn_fixed');
+		} else {
+			$(group_class).removeClass('btn_fixed');
+		}
+	});
+
     
+    $('.tab_button').on('click', function(e) {
+        // e.preventDefault();
+        $('.tab_button').removeClass('active');
+        $(this).addClass('active');
+
+        // var target = $(this).attr('href');
+        // $('.row_wrapper').hide();
+        // $(target).show();
+    });
 
 
     // $('.copy_code').on('click', function() {

@@ -87,5 +87,7 @@ class Wishlist_Everywhere_Plugin_Activator
     dbDelta($sql);
 
     }
+    
+    
 
 }

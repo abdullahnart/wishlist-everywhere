@@ -354,21 +354,28 @@ if ( ! empty( $wishlist_post_name ) ) {
 //             </select>
 
  echo '
-<div class="admin-post-sec">
-   <br>
-   <h1>General Settings</h1>
-   <br>
-   <h4 style="width:60%;">Enable a wishlist feature for all post types, allowing users to save and manage their favorite content—whether its products, blog posts, or custom items—creating a personalized and engaging browsing experience.</h4>
-   <br>
+<div class="admin-post-sec" id="wishev-admin-post-sec">
+   <div class = "wishev-admin-header"> 
+      <h1>General Settings</h1>
+      <h4 style="width:60%;">Enable a wishlist feature for all post types, allowing users to save and manage their favorite content—whether its products, blog posts, or custom items—creating a personalized and engaging browsing experience.</h4>
+   </div>
+   <div class="admin-post-content">
    <form method="POST">
       ';
       wp_nonce_field('we_admin_settings_action', 'we_admin_settings_nonce');
       echo '
-      <div class = "row_wrapper">
+      <div class = "button_group">
+         <a href="#btn1" class="tab_button active" title = "General"> <i class="fa-solid fa-gear"></i> <span>General</span> </a>
+         <a href="#btn2" class="tab_button" title = "Button Placement"> <i class="fa-solid fa-table-cells-large"></i> <span>Button Placement</span> </a>
+         <a href="#btn3" class="tab_button" title = "Button Design"> <i class="fa-solid fa-palette"></i> <span>Button Design</span> </a>
+         <a href="#btn4" class="tab_button" title = "Product Counter"> <i class="fa-solid fa-layer-group"></i> <span>Product Counter</span> </a>
+         <a href="#btn5" class="tab_button" title = "Sharing"> <i class="fa-solid fa-share-nodes"></i> <span>Sharing</span> </a>
+      </div>
+      <div class = "row_wrapper" id="btn1">
       <div class = "group-wrapper">
         <h2>Wishlist Settings</h2>
          <div class="form-group">
-            <label>Enable wishlist for</label>
+            <label><i class = "fa-regular fa-heart"></i> Enable wishlist for</label>
             <select id="filter_post_type" name="filter_post_type">
             ' . wp_kses($dropdown_val, array(
             'option' => array(
@@ -379,7 +386,7 @@ if ( ! empty( $wishlist_post_name ) ) {
             </select>
          </div>
          <div class="form-group login-tab">
-            <label>Guest User Login</label>
+            <label><i class="fa-regular fa-user"></i> Guest User Login</label>
             <div id="container" class="gd">
                <div class="toggle-button-container">
                   <div class="toggle-button gd">
@@ -395,7 +402,7 @@ if ( ! empty( $wishlist_post_name ) ) {
             </div>
          </div>
          <div class="form-group account-tab">
-            <label>Enable Wishlist Tab in My Account</label>
+            <label><i class="fa-regular fa-address-card"></i> Enable Wishlist Tab in My Account</label>
             <div id="container" class="gd">
                <div class="toggle-button-container">
                   <div class="toggle-button gd">
@@ -411,7 +418,7 @@ if ( ! empty( $wishlist_post_name ) ) {
             </div>
          </div> 
          <div class="form-group placement-tab">
-            <label>Custom Wishlist Placement (shortcode)</label>
+            <label><i class="fa-solid fa-code-branch"></i> Custom Wishlist Placement (shortcode)</label>
             <div id="container" class="gd">
                <div class="toggle-button-container">
                   <div class="toggle-button gd">
@@ -427,7 +434,7 @@ if ( ! empty( $wishlist_post_name ) ) {
             </div>
          </div>
          <div class="form-group">
-            <label>Enable Wishlist Block in Gutenberg</label>
+            <label><i class="fa-solid fa-pencil"></i> Enable Wishlist Block in Gutenberg</label>
             <div id="container" class="gd">
                <div class="toggle-button-container">
                   <div class="toggle-button gd">
@@ -464,7 +471,7 @@ if ( ! empty( $wishlist_post_name ) ) {
 
       </div>
       </div>
-   <div class = "row_wrapper wishev_position" style = "display:none;">
+   <div class = "row_wrapper wishev_position" style = "display:none;" id="btn2">
       <div class = "group-wrapper" >
          <h2>Product Listing Button Settings</h2>
          <div class="form-group">
@@ -553,7 +560,7 @@ if ( ! empty( $wishlist_post_name ) ) {
          </ol>
       </div>      
       </div>
-      <div class = "row_wrapper">      
+      <div class = "row_wrapper" id="btn3">      
       <div class = "group-wrapper">
         <h2>Wishlist Button Settings</h2>
          <div class="form-group">
@@ -668,7 +675,7 @@ if ( ! empty( $wishlist_post_name ) ) {
 
       </div>
       </div> 
-   <div class = "row_wrapper wishev_position" style = "display:none;">
+   <div class = "row_wrapper wishev_position" style = "display:none;" id="btn4">
       <div class = "group-wrapper">
          <h2>Wishlist Product Counter</h2>
          <div class="form-group">
@@ -724,7 +731,7 @@ if ( ! empty( $wishlist_post_name ) ) {
 </div>
       
       </div>           
-      <div class="row_wrapper">
+      <div class="row_wrapper" id="btn5">
          <div class = "group-wrapper">
             <h2>Entire Wishlist Sharing Options</h2>      
             <div class="form-group">
@@ -839,7 +846,9 @@ if ( ! empty( $wishlist_post_name ) ) {
          <button type="submit" id="post_submit" name="post_submit"><i class="fa-regular fa-floppy-disk"></i> Save</button>
       </div>
    </form>
+   </div>
 </div>
+<div class="go_top"><a href ="#wishev-admin-post-sec"><i class="fa-solid fa-arrow-up"></i></a></div>
 ';
 // }
 // wishev_render_button();

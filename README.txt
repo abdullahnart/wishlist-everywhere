@@ -229,3 +229,4 @@ Wishlist Sharing Introduced:
 📊 Add Tracking Usage in this plugin
 🔢 Introduced wishlist counter (Menu & Shortcode support) 
 🧱 Added Gutenberg Counter Block for easy insertion
+✨ Enhanced User Interface

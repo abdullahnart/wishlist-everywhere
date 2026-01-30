@@ -16,14 +16,28 @@
     // Cast to array in case saved option is a single string
     $allowed_post_types = (array) $all_post_name;
 
+    global $post;
+
+
+    // ❌ Skip WooCommerce single product pages (important)
+    if ( function_exists( 'is_product' ) && is_product() ) {
+        return $content;
+    }
+
+    // ❌ Skip product post type anywhere
+    if ( $post->post_type === 'product' ) {
+        return $content;
+    }
+
     // Always return $content if not in allowed post types
     if (!in_array($post_type, $allowed_post_types, true)) {
         return $content;
     }
 
+
     if (is_single() && is_user_logged_in()) {
         $wishlist_title = get_option('wishlist_name', 'Add to Wishlist');
-        $wishlist_icon = '<a href="#" class="wishlist-icon" data-post-id="' . esc_attr(get_the_ID()) . '">' . esc_html($wishlist_title) . '</a>';
+        $wishlist_icon = '<a href="#" class="single-post wishlist-icon" data-post-id="' . esc_attr(get_the_ID()) . '">' . esc_html($wishlist_title) . '</a>';
         return $wishlist_icon . $content;
     }
 

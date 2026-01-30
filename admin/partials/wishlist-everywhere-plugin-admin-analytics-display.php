@@ -56,31 +56,33 @@ $top_products = $wpdb->get_results("
     ?>
 
 <div class="wishlist-analytics-table">
-    <h1>Most Wishlisted Products</h1>
+    <div class="analytics-header">
+    <h1>⭐ Most Wishlisted Products</h1>
+    <p>Here are the top most wishlisted products in your store</p>
+    <h3>⭐ Most Wishlisted Products</h3>
+    </div>
+
     <div class="wishlisted-products">
         <?php foreach ($top_products as $product) : 
             $post_type = get_post_type($product->post_id);
             if ($post_type !== 'product') continue;
         ?>
-        <table>
-            <tr>
-                <th align="left">Product Image</th>
-                <th>Number of Visits</th>
-                <th>View Product</th>
-            </tr>
-            <tr>
-                <td class="first-col">
+        <div class ="wishlist-analytics-card">
+            <div class="analytics-card-content">
+                <div class="first-col">
                     <?php echo get_the_post_thumbnail($product->post_id); ?>
-                    <span><?php echo esc_html(get_the_title($product->post_id)); ?></span>
-                </td>
-                <td align="center">
-                   <?php echo esc_html($product->total); ?>
-                </td>
-                <td align="center">
-                    <a class="wishlist-link" target="_blank" href="<?php echo esc_url(get_permalink($product->post_id)); ?>">View</a>
-                </td>
-            </tr>
-        </table>
+                </div>
+                <div>
+                    <p><?php echo esc_html(get_the_title($product->post_id)); ?></p>
+                    <p class="wishlist-count"><i class="fas fa-heart"></i> <?php echo esc_html($product->total); ?> Wishlists</p>
+                </div>
+
+            </div>
+                <div>
+                    <a class="wishlist-link" target="_blank" href="<?php echo esc_url(get_permalink($product->post_id)); ?>">View Product <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+
+        </div>
         <?php endforeach; ?>
     </div>
 </div>
