@@ -266,7 +266,7 @@ function check_user_id() {
                     if ($variation_id && $product->is_in_stock()) {
                         $add_to_cart_url = esc_url(add_query_arg($query_args, $product->add_to_cart_url()));
                         $add_to_cart_text = esc_html($product->add_to_cart_text());
-                        echo '<a href="' . $add_to_cart_url . '" data-product_id="' . esc_attr($product->get_id()) . '"
+                        echo '<a href="' . esc_url($add_to_cart_url) . '" data-product_id="' . esc_attr($product->get_id()) . '"
                         data-product_sku="' . esc_attr($product->get_sku()) . '" class="button ajax_add_to_cart add-to-cart-btn">' . esc_html($add_to_cart_text) . '</a>';
                     } else {
                         echo '<span class="button disabled">Select Options</span>';
@@ -276,7 +276,7 @@ function check_user_id() {
                     $add_to_cart_url  = esc_url($product->add_to_cart_url());
                     $add_to_cart_text = esc_html($product->add_to_cart_text());
                     $product_id       = $product->get_id();
-                    echo '<a href="' . $add_to_cart_url . '" data-product_id="' . esc_attr($product_id) . '" class="add-to-cart-btn button add_to_cart_button ajax_add_to_cart">' . $add_to_cart_text . '</a>';
+                    echo '<a href="' . esc_url($add_to_cart_url) . '" data-product_id="' . esc_attr($product_id) . '" class="add-to-cart-btn button add_to_cart_button ajax_add_to_cart">' . esc_html($add_to_cart_text) . '</a>';
                 } else {
                     echo '<span class="button disabled">Out of Stock</span>';
                 }

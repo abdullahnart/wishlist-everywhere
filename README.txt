@@ -159,6 +159,7 @@ Learn more about how [Appsero collects and uses this data](https://appsero.com/p
 4. Wishlist icon displayed on the product page.
 5. Frontend wishlist page showing saved items using the shortcode.
 6. Wishlist popup displaying saved products in real time.
+7. Track Most Wishlisted Products and Top Wishlist Users Using Built-in Analytics
 
 == Changelog ==
 
@@ -226,7 +227,13 @@ Wishlist Sharing Introduced:
 
 
 = 1.1.6 =
-📊 Add Tracking Usage in this plugin
+📊 Added Wishlist Usage Tracking & Analytics
 🔢 Introduced wishlist counter (Menu & Shortcode support) 
-🧱 Added Gutenberg Counter Block for easy insertion
-✨ Enhanced User Interface
+🧱 Added Gutenberg Wishlist Counter Block for Easy Placement
+✨ Enhanced User Interface & Overall Experience
+🖼️ Updated Plugin Banner Images & Screenshots         
+🧩 Added Attribute Support in Global Shortcode (Products, Posts & Custom Post Types)
+🐞 Fixed: “Array” text appearing under the Add to Wishlist button in block-based CPT templates.
+🔧 Fixed: Shortcode callback now correctly handles attributes and content.
+⚡ Improved: Better compatibility with block themes and auto placement.
+

@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         add_action('woocommerce_before_add_to_cart_button', 'add_wishlist_icon_to_product_single', 10, 1);
     }elseif($wishlist_single_position == 'after'){
         add_action('woocommerce_after_add_to_cart_form', 'add_wishlist_icon_to_product_single', 10, 1);
+    }elseif($wishlist_single_position == 'above'){
+        add_action('woocommerce_product_thumbnails', 'add_wishlist_icon_to_product_single', 10, 1);
     }else{
         add_shortcode('wishlist_everywhere_single', 'add_wishlist_icon_to_product_single');
     }
@@ -58,19 +60,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '">' . esc_html($wishlist_title) . '</a>
                     ';
                         $content = $wishlist_icon . $content;
-                        echo ($wishlist_icon) ;
+                        echo wp_kses_post( $wishlist_icon );
                 }else if($wishlist_icon_option === 'icon_only'){
                     $wishlist_icon = '
                         <a href="#" class="wishlist-icon icon-only" data-post-id="' . esc_attr(get_the_ID()) . '"><i class="fa-regular fa-heart"></i></a>
                     ';
                         $content = $wishlist_icon . $content;
-                        echo ($wishlist_icon) ;
+                        echo wp_kses_post( $wishlist_icon );
                 }else{
                     $wishlist_icon = '
                         <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '"> <i class="fa-regular fa-heart"></i>' . esc_html($wishlist_title) . '</a>
                     ';
                         $content = $wishlist_icon . $content;
-                       echo ($wishlist_icon) ;
+                       echo wp_kses_post( $wishlist_icon );
                 }
 
             } else {
@@ -106,19 +108,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '">' . esc_html($wishlist_title) . '</a>
                     ';
                         $content = $wishlist_icon . $content;
-                        echo ($wishlist_icon) ;
+                        echo wp_kses_post( $wishlist_icon );
                 }else if($wishlist_icon_option === 'icon_only'){
                     $wishlist_icon = '
                         <a href="#" class="wishlist-icon icon-only" data-post-id="' . esc_attr(get_the_ID()) . '"><i class="fa-regular fa-heart"></i></a>
                     ';
                         $content = $wishlist_icon . $content;
-                        echo ($wishlist_icon) ;
+                        echo wp_kses_post( $wishlist_icon );
                 }else{
                     $wishlist_icon = '
                         <a href="#" class="wishlist-icon single" data-post-id="' . esc_attr(get_the_ID()) . '"> <i class="fa-regular fa-heart"></i>' . esc_html($wishlist_title) . '</a>
                     ';
                         $content = $wishlist_icon . $content;
-                       echo ($wishlist_icon) ;
+                       echo wp_kses_post( $wishlist_icon );
                 }
         }                                 
                      

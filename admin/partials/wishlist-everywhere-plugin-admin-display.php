@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     $wishlist_single_positions = [
         'before' => 'Before "Add to cart" Button',
         'after' => 'After "Add to cart" Button',
+        'above' => 'Below Thumbnail',
         'custom_position' => 'Custom Position',
     ];
 
@@ -493,7 +494,15 @@ if ( ! empty( $wishlist_post_name ) ) {
          <div class="form-group for_archive">
             <label>Wishlist Button Position</label>
             <select id="archive_option" name="archive_option">
-                ' . $archive_position_val . '
+                ' . wp_kses(
+        $archive_position_val,
+        array(
+            'option' => array(
+                'value'    => true,
+                'selected' => true,
+            ),
+        )
+    ) . '
             </select>
          </div>
       </div>
@@ -538,7 +547,15 @@ if ( ! empty( $wishlist_post_name ) ) {
          <div class="form-group for_single">
             <label>Wishlist Button Position</label>
             <select id="single_option" name="single_option">
-                ' . $single_position_val . '
+                ' . wp_kses(
+        $single_position_val,
+        array(
+            'option' => array(
+                'value'    => true,
+                'selected' => true,
+            ),
+        )
+    ) . '
             </select>
          </div>
       </div>
@@ -566,7 +583,15 @@ if ( ! empty( $wishlist_post_name ) ) {
          <div class="form-group">
             <label>Display Style</label>
             <select id="wishlist_custom_icon" name="wishlist_custom_icon">
-                ' . $wishlist_custom_icon . '
+                ' . wp_kses(
+        $wishlist_custom_icon,
+        array(
+            'option' => array(
+                'value'    => true,
+                'selected' => true,
+            ),
+        )
+    ) . '
             </select>         
             </div>        
          <div class="form-group">
@@ -697,7 +722,15 @@ if ( ! empty( $wishlist_post_name ) ) {
          <div class="form-group for_single">
             <label>Wishlist Menu Location</label>
             <select id="menu_dropdown" name="menu_dropdown">
-                ' . $menu_dropdown_val . '
+                ' . wp_kses(
+        $menu_dropdown_val,
+        array(
+            'option' => array(
+                'value'    => true,
+                'selected' => true,
+            ),
+        )
+    ) . '
             </select>
          </div>
          <div class="form-group counter-color">

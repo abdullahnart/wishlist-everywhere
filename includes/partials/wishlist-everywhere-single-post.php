@@ -1,12 +1,19 @@
 <?php
 
     get_option('enable_post_placement');
-    if (get_option('enable_post_placement') !== 'enable_post_placement') {
+    // Showing Default and shortcode button both in single post if enabled from settings so for this 
+    // if (get_option('enable_post_placement') !== 'enable_post_placement'){
+    if (get_option('enable_post_placement') === 'enable_post_placement'){
         add_filter('the_content', 'add_wishlist_icon_to_posts', 10, 1);
     }
 
 
-    add_shortcode('wishlist_post', 'add_wishlist_icon_to_posts', 10, 1);
+    add_shortcode('wishlist_post', 'wishlist_post_shortcode');
+
+    function wishlist_post_shortcode($atts, $content = null) {
+    return add_wishlist_icon_to_posts('');
+}
+
 
 
     function add_wishlist_icon_to_posts($content) {
@@ -29,8 +36,8 @@
         return $content;
     }
 
-    // Always return $content if not in allowed post types
-    if (!in_array($post_type, $allowed_post_types, true)) {
+    // Skip if not allowed CPT
+    if (!empty($allowed_post_types) && !in_array($post_type, $allowed_post_types, true)) {
         return $content;
     }
 
