@@ -101,6 +101,24 @@
     // Run on page load
     toggleWishlistEnable();
 
+
+    function toggleProductEnable() {
+        var wishName = $('#filter_post_type').val();
+        var lastParent = jQuery('#filter_post_type').closest('.admin-post-content');
+        console.log(lastParent);
+        if (wishName === 'product') {
+            $(lastParent).find('#btn2-tab').css('display', 'inline-block');
+            $(lastParent).find('#btn4-tab').css('display', 'inline-block');
+
+        } else {
+            $(lastParent).find('#btn2-tab').css('display', 'none');
+            $(lastParent).find('#btn4-tab').css('display', 'none');
+        }
+    }
+
+    // Run on page load
+    toggleProductEnable();
+
     function toggleLoginEnable() {
         var wishName = $('#filter_post_type').val();
 
@@ -134,7 +152,7 @@
     function toggleCustomPlacement() {
         var wishName = $('#filter_post_type').val();
 
-        if (wishName === 'post') {
+        if (wishName !== 'product') {
             $('#filter_post_type').closest('.form-group').parent().parent().parent().parent().find('.placement-tab').css('display', 'flex');
 
         } else {
@@ -171,6 +189,7 @@ $singleCheckbox.on('change', toggleWishlistPosition);
         toggleLoginEnable();
         toggleAccountEnable();
         toggleCustomPlacement();
+        toggleProductEnable();
     });
 
    });

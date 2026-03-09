@@ -1,7 +1,7 @@
 <?php
 
     get_option('enable_post_placement');
-    // Showing Default and shortcode button both in single post if enabled from settings so for this 
+    // Showing Default and shortcode button both in single post if enabled from settings so for this    
     // if (get_option('enable_post_placement') !== 'enable_post_placement'){
     if (get_option('enable_post_placement') === 'enable_post_placement'){
         add_filter('the_content', 'add_wishlist_icon_to_posts', 10, 1);
@@ -23,7 +23,7 @@
     // Cast to array in case saved option is a single string
     $allowed_post_types = (array) $all_post_name;
 
-    global $post;
+    global $post; // Debugging line to check the $post object
 
 
     // ❌ Skip WooCommerce single product pages (important)
